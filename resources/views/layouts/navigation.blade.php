@@ -16,6 +16,9 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @if(Auth::user()->role === 'super_admin' || Auth::user()->role === 'admin')
+                        <x-nav-link :href="route('locations.index')" :active="request()->routeIs('locations.*')">
+                            {{ __('Locaux') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('agents.index')" :active="request()->routeIs('agents.*')">
                             {{ __('Agents') }}
                         </x-nav-link>
@@ -76,6 +79,9 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             @if(Auth::user()->role === 'super_admin' || Auth::user()->role === 'admin')
+                <x-responsive-nav-link :href="route('locations.index')" :active="request()->routeIs('locations.*')">
+                    {{ __('Locaux') }}
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('agents.index')" :active="request()->routeIs('agents.*')">
                     {{ __('Agents') }}
                 </x-responsive-nav-link>
