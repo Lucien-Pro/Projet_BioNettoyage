@@ -15,6 +15,7 @@ class LocationController extends Controller
 
         // On récupère uniquement les lieux racines (les bâtiments) avec leurs enfants
         $locations = Location::with('children')
+            ->withCount('children')
             ->where('locations_id', 0)
             ->orderBy('name')
             ->get();
