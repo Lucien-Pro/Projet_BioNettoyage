@@ -24,4 +24,20 @@ class Location extends Model
         'postcode',
         'town'
     ];
+
+    /**
+     * Obtenir les sous-lieux (ex: les salles d'un bâtiment)
+     */
+    public function children()
+    {
+        return $this->hasMany(Location::class, 'locations_id');
+    }
+
+    /**
+     * Obtenir le lieu parent (ex: le bâtiment d'une salle)
+     */
+    public function parent()
+    {
+        return $this->belongsTo(Location::class, 'locations_id');
+    }
 }

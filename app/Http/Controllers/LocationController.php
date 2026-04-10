@@ -13,7 +13,12 @@ class LocationController extends Controller
             abort(403, 'Accès non autorisé.');
         }
 
-        $locations = Location::orderBy('completename')->paginate(20);
+        // On récupère uniquement les lieux racines (les bâtiments) avec leurs enfants
+        $locations = Location::with('children')
+            ->where('locations_id', 0)
+            ->orderBy('name')
+            ->get();
+
         return view('locations.index', compact('locations'));
     }
 }
