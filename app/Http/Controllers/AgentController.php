@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AgentController extends Controller
 {
@@ -25,13 +27,27 @@ class AgentController extends Controller
             'nom' => 'required|string|max:100',
             'prenom' => 'required|string|max:100',
             'initiales' => 'required|string|max:10',
-            'email' => 'nullable|email|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
             'statut' => 'required|string|in:actif,inactif',
+            'password' => 'required|string|min:8',
         ]);
 
-        Agent::create($validated);
+        // 1. Créer le compte utilisateur
+        $user = User::create([
+            'name' => $validated['prenom'] . ' ' . $validated['nom'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'must_change_password' => true,
+        ]);
 
-        return redirect()->route('agents.index')->with('success', 'Agent ajouté avec succès');
+        // 2. Créer l'agent lié
+        $agentData = $validated;
+        unset($agentData['password']);
+        $agentData['user_id'] = $user->id;
+
+        Agent::create($agentData);
+
+        return redirect()->route('agents.index')->with('success', 'Agent et compte utilisateur créés avec succès. Le mot de passe devra être changé à la première connexion.');
     }
 
     /**

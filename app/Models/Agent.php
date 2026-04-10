@@ -11,6 +11,12 @@ class Agent extends Model
         'prenom',
         'initiales',
         'email',
-        'statut'
+        'statut',
+        'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
