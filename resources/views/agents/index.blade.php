@@ -7,11 +7,27 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Success Message -->
+            <!-- Messages de succès/erreur -->
             @if (session('success'))
                 <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                     <span class="block sm:inline">{{ session('success') }}</span>
                 </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Oups !</strong>
+                    <ul class="mt-2 list-disc list-inside text-sm">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                <script>
+                    window.onload = function() {
+                        document.getElementById('add-agent-modal').classList.remove('hidden');
+                    };
+                </script>
             @endif
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
