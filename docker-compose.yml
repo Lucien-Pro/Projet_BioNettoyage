@@ -10,18 +10,27 @@ services:
     depends_on:
       - db
     environment:
-      - URLROOT=http://localhost:8080
+      - APP_NAME=BioNettoyage
+      - APP_ENV=local
+      - APP_KEY=base64:coFHkG/hMn8vOt8LzQQfhMQgMq6tijejbypLU2cGQ5o=
+      - APP_DEBUG=true
+      - APP_URL=http://localhost:8080
+      - DB_HOST=db
+      - DB_DATABASE=bionet_db
+      - DB_USERNAME=lucien
+      - DB_PASSWORD=Lucknite0710.
 
   db:
     image: mariadb:10.11
     restart: always
     environment:
       MYSQL_DATABASE: bionet_db
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_USER: lucien
+      MYSQL_PASSWORD: Lucknite0710.
+      MYSQL_ROOT_PASSWORD: Lucknite0710.
     ports:
       - "3306:3306"
     volumes:
-      - ./sql:/docker-entrypoint-initdb.d
       - db_data:/var/lib/mysql
 
 volumes:

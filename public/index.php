@@ -1,20 +1,20 @@
 <?php
-/**
- * Application Entry Point
- */
 
-require_once '../config/config.php';
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 
-// Autoload Core Classes
-spl_autoload_register(function($className) {
-    // Convert namespace to file path
-    $file = '../' . str_replace('\\', '/', $className) . '.php';
-    if (file_exists($file)) {
-        require_once $file;
-    }
-});
+define('LARAVEL_START', microtime(true));
 
-use App\Core\Router;
+// Determine if the application is in maintenance mode...
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+    require $maintenance;
+}
 
-// Init Router
-$init = new Router();
+// Register the Composer autoloader...
+require __DIR__.'/../vendor/autoload.php';
+
+// Bootstrap Laravel and handle the request...
+/** @var Application $app */
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+$app->handleRequest(Request::capture());
