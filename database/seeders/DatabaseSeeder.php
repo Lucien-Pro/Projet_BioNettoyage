@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Administrateur',
             'email' => 'admin@bionet.com',
-            'password' => bcrypt('password'), // Mot de passe par défaut : password
+            'password' => bcrypt('password'),
+            'role' => 'super_admin',
+            'must_change_password' => false,
         ]);
     }
 }

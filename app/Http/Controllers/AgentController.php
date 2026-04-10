@@ -38,6 +38,7 @@ class AgentController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'must_change_password' => true,
+            'role' => 'utilisateur',
         ]);
 
         // 2. Créer l'agent lié
