@@ -3,6 +3,8 @@
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Agent;
+use App\Models\Location;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,7 +13,11 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $agents_count = Agent::count();
+    $locations_count = Location::count();
+    $agents = Agent::with('user')->get();
+    
+    return view('dashboard', compact('agents_count', 'locations_count', 'agents'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

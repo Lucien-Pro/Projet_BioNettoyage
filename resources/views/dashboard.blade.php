@@ -17,36 +17,32 @@
                     Équipe
                 </button>
                 <button @click="activeTab = 'alertes'" :class="activeTab === 'alertes' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all duration-200">
-                    Alertes <span class="ml-2 py-0.5 px-2 bg-red-100 text-red-600 rounded-full text-xs">3</span>
+                    Alertes <span class="ml-2 py-0.5 px-2 bg-gray-100 text-gray-400 rounded-full text-xs">0</span>
                 </button>
             </div>
 
             <!-- Tab Content: Mes Locaux -->
             <div x-show="activeTab === 'locaux'" class="space-y-6">
                 <!-- Stats Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-indigo-500">
+                        <div class="text-3xl font-bold text-indigo-600">{{ $locations_count }}</div>
+                        <div class="text-sm text-gray-500 uppercase tracking-wider font-semibold">Locaux Totaux</div>
+                    </div>
                     <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500">
-                        <div class="text-3xl font-bold text-green-600">31</div>
-                        <div class="text-sm text-gray-500 uppercase tracking-wider font-semibold">Faits</div>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-amber-500">
-                        <div class="text-3xl font-bold text-amber-600">4</div>
-                        <div class="text-sm text-gray-500 uppercase tracking-wider font-semibold">En attente</div>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-red-500">
-                        <div class="text-3xl font-bold text-red-600">1</div>
-                        <div class="text-sm text-gray-500 uppercase tracking-wider font-semibold">En retard</div>
+                        <div class="text-3xl font-bold text-green-600">{{ $agents_count }}</div>
+                        <div class="text-sm text-gray-500 uppercase tracking-wider font-semibold">Agents Actifs</div>
                     </div>
                 </div>
 
                 <!-- Global Progress -->
                 <div class="bg-white p-6 rounded-lg shadow-sm">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm font-medium text-gray-700">Progression globale</span>
-                        <span class="text-sm font-bold text-indigo-600">86% — 36/36</span>
+                        <span class="text-sm font-medium text-gray-700">Progression du jour</span>
+                        <span class="text-sm font-bold text-indigo-600">0% — 0/{{ $locations_count }}</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div class="bg-indigo-600 h-2.5 rounded-full" style="width: 86%"></div>
+                        <div class="bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
                     </div>
                 </div>
 
@@ -64,32 +60,9 @@
                         </div>
 
                         <div class="space-y-3">
-                            <!-- Card 1 -->
-                            <div class="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 cursor-pointer transition">
-                                <div class="bg-red-50 p-3 rounded-lg mr-4">🏥</div>
-                                <div class="flex-grow">
-                                    <div class="font-bold text-gray-900">Salle de soins 2B</div>
-                                    <div class="text-xs text-gray-500">Priorité haute · Prévu 08h30</div>
-                                </div>
-                                <span class="px-2 py-1 text-xs font-bold bg-red-100 text-red-700 rounded uppercase">En retard</span>
-                            </div>
-                            <!-- Card 2 -->
-                            <div class="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 cursor-pointer transition">
-                                <div class="bg-amber-50 p-3 rounded-lg mr-4">🚪</div>
-                                <div class="flex-grow">
-                                    <div class="font-bold text-gray-900">Couloir Est — Étage 3</div>
-                                    <div class="text-xs text-gray-500">Standard · Prévu 10h00</div>
-                                </div>
-                                <span class="px-2 py-1 text-xs font-bold bg-amber-100 text-amber-700 rounded uppercase">À faire</span>
-                            </div>
-                            <!-- Card 3 -->
-                            <div class="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 cursor-pointer transition">
-                                <div class="bg-green-50 p-3 rounded-lg mr-4">🚿</div>
-                                <div class="flex-grow">
-                                    <div class="font-bold text-gray-900">Sanitaires bloc C</div>
-                                    <div class="text-xs text-gray-500">Fait à 09h12 · M. Dupont</div>
-                                </div>
-                                <span class="px-2 py-1 text-xs font-bold bg-green-100 text-green-700 rounded uppercase">Validé</span>
+                            <div class="p-8 text-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                                <p class="text-gray-500">Aucune tâche de nettoyage assignée pour le moment.</p>
+                                <p class="text-xs text-gray-400 mt-1 italic">Le système de planification sera déployé prochainement.</p>
                             </div>
                         </div>
                     </div>
@@ -112,62 +85,36 @@
                 </div>
 
                 <div class="grid grid-cols-1 gap-4">
-                    @php
-                        $agents_demo = [
-                            ['avatar' => 'MD', 'name' => 'Marie Dupont', 'prog' => '36/36', 'pct' => 100, 'color' => 'bg-green-500'],
-                            ['avatar' => 'JL', 'name' => 'Jean Lefebvre', 'prog' => '29/36', 'pct' => 80, 'color' => 'bg-amber-500'],
-                            ['avatar' => 'SB', 'name' => 'Sophie Bernard', 'prog' => '31/36', 'pct' => 86, 'color' => 'bg-amber-500'],
-                            ['avatar' => 'KA', 'name' => 'Karim Amrani', 'prog' => '24/36', 'pct' => 67, 'color' => 'bg-red-500'],
-                            ['avatar' => 'PN', 'name' => 'Pauline Nguyen', 'prog' => '34/36', 'pct' => 94, 'color' => 'bg-green-500'],
-                        ];
-                    @endphp
-
-                    @foreach($agents_demo as $agent)
-                        <div class="bg-white p-4 rounded-lg shadow-sm flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold mr-4">
-                                {{ $agent['avatar'] }}
+                    @forelse($agents as $agent)
+                        <div class="bg-white p-4 rounded-lg shadow-sm flex items-center hover:shadow-md transition">
+                            <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold mr-4 uppercase">
+                                {{ substr($agent->prenom, 0, 1) }}{{ substr($agent->nom, 0, 1) }}
                             </div>
                             <div class="flex-grow">
-                                <div class="font-semibold">{{ $agent['name'] }}</div>
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-32 bg-gray-200 rounded-full h-1.5 mt-1">
-                                        <div class="{{ $agent['color'] }} h-1.5 rounded-full" style="width: {{ $agent['pct'] }}%"></div>
-                                    </div>
-                                    <span class="text-xs text-gray-500">{{ $agent['prog'] }}</span>
-                                </div>
+                                <div class="font-semibold">{{ $agent->prenom }} {{ $agent->nom }}</div>
+                                <div class="text-xs text-gray-500">{{ $agent->user->role ?? 'Agent' }}</div>
                             </div>
-                            <div class="text-sm font-bold {{ str_contains($agent['color'], 'green') ? 'text-green-600' : (str_contains($agent['color'], 'amber') ? 'text-amber-600' : 'text-red-600') }}">
-                                {{ $agent['pct'] }}%
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2 py-1 text-[10px] font-bold bg-gray-100 text-gray-500 rounded uppercase">Prêt</span>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="bg-white p-12 text-center rounded-lg shadow">
+                            <p class="text-gray-500 italic">Aucun agent n'est enregistré pour le moment.</p>
+                        </div>
+                    @endforelse
                 </div>
             </div>
 
-            <!-- Tab Content: Alertes -->
             <div x-show="activeTab === 'alertes'" class="space-y-4">
-                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-red-500 flex items-start">
-                    <div class="w-3 h-3 rounded-full bg-red-500 mt-1.5 mr-4 shrink-0 shadow-[0_0_8px_rgba(239,68,68,0.5)]"></div>
-                    <div>
-                        <div class="font-bold text-gray-900">Salle de soins 2B — Nettoyage non effectué</div>
-                        <div class="text-sm text-gray-500">Prévu à 08h30 · Retard de 1h45</div>
+                <div class="bg-white p-12 text-center rounded-lg shadow">
+                    <div class="flex justify-center mb-4 text-green-500">
+                        <svg class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
                     </div>
-                </div>
-
-                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-red-500 flex items-start">
-                    <div class="w-3 h-3 rounded-full bg-red-500 mt-1.5 mr-4 shrink-0 shadow-[0_0_8px_rgba(239,68,68,0.5)]"></div>
-                    <div>
-                        <div class="font-bold text-gray-900">Thomas Martin — Avancement faible (50%)</div>
-                        <div class="text-sm text-gray-500">Dernière action il y a 42 min</div>
-                    </div>
-                </div>
-
-                <div class="bg-amber-50 p-6 rounded-lg shadow-sm border border-amber-200 border-l-4 border-amber-500 flex items-start">
-                    <div class="w-3 h-3 rounded-full bg-amber-500 mt-1.5 mr-4 shrink-0"></div>
-                    <div>
-                        <div class="font-bold text-amber-900">Produit P3 — Stock bas signalé</div>
-                        <div class="text-sm text-amber-700">Mis à jour il y a 20 min</div>
-                    </div>
+                    <h3 class="text-lg font-medium text-gray-900">Aucune alerte active</h3>
+                    <p class="mt-1 text-sm text-gray-500">Tout semble être en ordre pour le moment.</p>
                 </div>
             </div>
 
