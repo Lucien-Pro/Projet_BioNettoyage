@@ -14,7 +14,7 @@ class AgentController extends Controller
      */
     public function index()
     {
-        $agents = Agent::orderBy('nom')->get();
+        $agents = Agent::with('user')->orderBy('nom')->get();
         return view('agents.index', compact('agents'));
     }
 
@@ -23,14 +23,27 @@ class AgentController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $rules = [
             'nom' => 'required|string|max:100',
             'prenom' => 'required|string|max:100',
             'initiales' => 'required|string|max:10',
             'email' => 'required|email|max:255|unique:users,email',
             'statut' => 'required|string|in:actif,inactif',
             'password' => 'required|string|min:8',
-        ]);
+        ];
+
+        // Ajouter la validation du rôle seulement pour les super_admins
+        if ($request->user()->role === 'super_admin') {
+            $rules['role'] = 'required|string|in:admin,utilisateur';
+        }
+
+        $validated = $request->validate($rules);
+
+        // Déterminer le rôle final
+        $finalRole = 'utilisateur'; // Par défaut
+        if ($request->user()->role === 'super_admin') {
+            $finalRole = $validated['role'];
+        }
 
         // 1. Créer le compte utilisateur
         $user = User::create([
@@ -38,17 +51,17 @@ class AgentController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'must_change_password' => true,
-            'role' => 'utilisateur',
+            'role' => $finalRole,
         ]);
 
         // 2. Créer l'agent lié
         $agentData = $validated;
-        unset($agentData['password']);
+        unset($agentData['password'], $agentData['role']);
         $agentData['user_id'] = $user->id;
 
         Agent::create($agentData);
 
-        return redirect()->route('agents.index')->with('success', 'Agent et compte utilisateur créés avec succès. Le mot de passe devra être changé à la première connexion.');
+        return redirect()->route('agents.index')->with('success', 'Agent et compte utilisateur créés avec succès (Rôle: ' . $finalRole . ').');
     }
 
     /**

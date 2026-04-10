@@ -30,6 +30,9 @@
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Agent</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Initiales</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                    @if(Auth::user()->role === 'super_admin')
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rôle</th>
+                                    @endif
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                 </tr>
@@ -48,6 +51,13 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $agent->email ?? '-' }}
                                         </td>
+                                        @if(Auth::user()->role === 'super_admin')
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 uppercase">
+                                                    {{ $agent->user->role ?? 'N/A' }}
+                                                </span>
+                                            </td>
+                                        @endif
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $agent->statut === 'actif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                                 {{ ucfirst($agent->statut) }}
@@ -103,6 +113,15 @@
                         <input type="password" name="password" required minlength="8" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         <p class="text-xs text-gray-500 mt-1">L'agent devra changer ce mot de passe à sa première connexion.</p>
                     </div>
+                    @if(Auth::user()->role === 'super_admin')
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Rôle</label>
+                        <select name="role" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="utilisateur">Agent (Utilisateur)</option>
+                            <option value="admin">Administrateur</option>
+                        </select>
+                    </div>
+                    @endif
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2">Statut</label>
                         <select name="statut" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
