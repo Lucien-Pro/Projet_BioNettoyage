@@ -34,14 +34,14 @@ class AgentController extends Controller
 
         // Ajouter la validation du rôle seulement pour les super_admins
         if ($request->user()->role === 'super_admin') {
-            $rules['role'] = 'required|string|in:admin,utilisateur';
+            $rules['role'] = 'nullable|string|in:admin,utilisateur';
         }
 
         $validated = $request->validate($rules);
 
         // Déterminer le rôle final
         $finalRole = 'utilisateur'; // Par défaut
-        if ($request->user()->role === 'super_admin') {
+        if ($request->user()->role === 'super_admin' && !empty($validated['role'])) {
             $finalRole = $validated['role'];
         }
 
