@@ -58,7 +58,7 @@ class AgentController extends Controller
         ];
 
         if ($request->user()->role === 'super_admin') {
-            $rules['role'] = 'nullable|string|in:super_admin,admin,utilisateur';
+            $rules['role'] = 'nullable|string|in:admin,utilisateur';
         }
 
         $validated = $request->validate($rules);
@@ -101,7 +101,7 @@ class AgentController extends Controller
         ];
 
         if ($request->user()->role === 'super_admin') {
-            $rules['role'] = 'required|string|in:super_admin,admin,utilisateur';
+            $rules['role'] = 'required|string|in:admin,utilisateur';
         }
 
         $validated = $request->validate($rules);

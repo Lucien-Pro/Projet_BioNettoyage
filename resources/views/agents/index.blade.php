@@ -154,7 +154,6 @@
                                 <select name="role" class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-all bg-gray-50/50 font-semibold text-gray-700">
                                     <option value="utilisateur">Utilisateur (Agent standard)</option>
                                     <option value="admin">Administrateur (Gestionnaire)</option>
-                                    <option value="super_admin">Super Administrateur</option>
                                 </select>
                             </div>
                         @endif
@@ -222,7 +221,6 @@
                                 <select name="role" x-model="agent.role" class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 font-bold text-indigo-700">
                                     <option value="utilisateur">Utilisateur</option>
                                     <option value="admin">Administrateur</option>
-                                    <option value="super_admin">Super Administrateur</option>
                                 </select>
                             </div>
                         @endif
