@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PlanningController;
 use App\Models\Agent;
 use App\Models\Location;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +16,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $agents_count = Agent::count();
     $locations_count = Location::count();
-    $agents = Agent::with('user')->get();
+    $agents = Agent::with(['user', 'plannings.location'])->get();
     
     return view('dashboard', compact('agents_count', 'locations_count', 'agents'));
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -26,7 +27,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('agents', AgentController::class);
-    Route::post('/agents/{agent}/assignments', [AgentController::class, 'updateAssignments'])->name('agents.assignments.update');
+    
+    // Planning Hebdomadaire
+    Route::get('/planning', [PlanningController::class, 'index'])->name('planning.index');
+    Route::post('/planning', [PlanningController::class, 'store'])->name('planning.store');
+    Route::delete('/planning/ajax-remove', [PlanningController::class, 'removeAjax'])->name('planning.ajax-remove');
+    Route::delete('/planning/{planning}', [PlanningController::class, 'destroy'])->name('planning.destroy');
 
     Route::get('/locaux', [LocationController::class, 'index'])->name('locations.index');
 

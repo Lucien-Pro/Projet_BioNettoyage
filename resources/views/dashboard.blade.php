@@ -50,9 +50,11 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold">Locaux assignés</h3>
+                            <h3 class="text-lg font-semibold italic text-gray-800">
+                                📅 À faire aujourd'hui ({{ now()->translatedFormat('l d F') }})
+                            </h3>
                             <div class="relative">
-                                <input type="text" placeholder="Rechercher..." class="pl-8 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                <input type="text" placeholder="Rechercher..." class="pl-8 pr-4 py-2 border border-gray-100 rounded-xl text-sm focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50/50">
                                 <span class="absolute left-2.5 top-2.5 text-gray-400">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                 </span>
@@ -60,10 +62,44 @@
                         </div>
 
                         <div class="space-y-3">
-                            <div class="p-8 text-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
-                                <p class="text-gray-500">Aucune tâche de nettoyage assignée pour le moment.</p>
-                                <p class="text-xs text-gray-400 mt-1 italic">Le système de planification sera déployé prochainement.</p>
-                            </div>
+                            @php
+                                $agent = Auth::user()->role === 'super_admin' ? null : Auth::user()->agent;
+                                $tasks = $agent ? $agent->todayPlannings()->with('location.parent')->get() : collect();
+                            @endphp
+
+                            @forelse($tasks as $task)
+                                <div class="p-4 rounded-xl border border-gray-100 bg-white hover:border-indigo-200 transition-all flex items-center justify-between group shadow-sm hover:shadow-md">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center font-bold">
+                                            ✔
+                                        </div>
+                                        <div>
+                                            <div class="font-bold text-gray-900">{{ $task->location->name }}</div>
+                                            <div class="text-xs text-gray-400 uppercase tracking-tighter">
+                                                @if($task->location->parent)
+                                                    {{ $task->location->parent->name }}
+                                                @else
+                                                    Bâtiment principal
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="px-3 py-1 bg-gray-50 text-gray-400 rounded-full text-[10px] font-bold uppercase tracking-widest group-hover:bg-indigo-50 group-hover:text-indigo-500 transition-colors">
+                                            À faire
+                                        </span>
+                                        <button class="p-2 text-gray-300 hover:text-green-500 transition">
+                                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold"><path d="M5 13l4 4L19 7" /></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="p-8 text-center bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                                    <div class="text-4xl mb-3">☕</div>
+                                    <p class="text-gray-500 font-bold">Rien de prévu pour vous aujourd'hui !</p>
+                                    <p class="text-xs text-gray-400 mt-1 italic">Profitez-en pour mettre à jour vos stocks ou aider un collègue.</p>
+                                </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>

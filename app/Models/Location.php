@@ -42,11 +42,10 @@ class Location extends Model
     }
 
     /**
-     * Les agents assignés à ce local.
+     * Les entrées de planning associées à ce lieu.
      */
-    public function agents()
+    public function plannings()
     {
-        return $this->belongsToMany(Agent::class, 'agent_location', 'location_id', 'agent_id')
-                    ->withTimestamps();
+        return $this->hasMany(Planning::class, 'location_id');
     }
 }

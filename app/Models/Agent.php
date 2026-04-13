@@ -18,17 +18,26 @@ class Agent extends Model
     /**
      * Le compte utilisateur lié.
      */
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * Les locaux assignés à cet agent.
+     * Les entrées de planning de l'agent.
      */
-    public function locations()
+    public function plannings(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsToMany(Location::class, 'agent_location', 'agent_id', 'location_id')
-                    ->withTimestamps();
+        return $this->hasMany(Planning::class);
+    }
+
+    /**
+     * Les tâches prévues pour aujourd'hui.
+     */
+    public function todayPlannings()
+    {
+        // ISO-8601 numeric representation of the day of the week (1 for Monday through 7 for Sunday)
+        $dayOfWeek = now()->format('N');
+        return $this->hasMany(Planning::class)->where('day_of_week', $dayOfWeek);
     }
 }
