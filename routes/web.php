@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('agents', AgentController::class);
+    Route::post('/agents/{agent}/assignments', [AgentController::class, 'updateAssignments'])->name('agents.assignments.update');
 
     Route::get('/locaux', [LocationController::class, 'index'])->name('locations.index');
 

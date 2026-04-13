@@ -80,6 +80,13 @@
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button 
+                                                type="button" 
+                                                onclick="showAssignmentModal({{ $agent->id }}, '{{ addslashes($agent->prenom) }} {{ addslashes($agent->nom) }}', {{ $agent->locations->pluck('id') }})" 
+                                                class="text-green-600 hover:text-green-900 mr-3 transition font-semibold"
+                                            >
+                                                Zones
+                                            </button>
                                             <button onclick="editAgent({{ $agent->id }})" class="text-indigo-600 hover:text-indigo-900 mr-3 transition">Modifier</button>
                                             <button 
                                                 type="button" 
@@ -153,10 +160,188 @@
         </div>
     </div>
 
+    <!-- Modal d'Affectation des Zones (Premium) -->
+    <div 
+        id="assignment-modal" 
+        class="hidden fixed inset-0 z-50 overflow-y-auto" 
+        x-data="{ 
+            search: '', 
+            selectedLocations: [],
+            toggleLocation(id) {
+                if (this.selectedLocations.includes(id)) {
+                    this.selectedLocations = this.selectedLocations.filter(i => i !== id);
+                } else {
+                    this.selectedLocations.push(id);
+                }
+            }
+        }"
+    >
+        <div class="flex items-center justify-center min-h-screen p-4 sm:p-6">
+            <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="hideAssignmentModal()"></div>
+            
+            <div class="relative bg-white rounded-2xl shadow-2xl transform transition-all max-w-4xl w-full overflow-hidden flex flex-col max-h-[90vh]">
+                <!-- Header -->
+                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-gray-900">Affectation des Zones</h3>
+                        <p class="text-sm text-gray-500">Agent : <span id="assign-agent-name" class="font-bold text-indigo-600"></span></p>
+                    </div>
+                    <button onclick="hideAssignmentModal()" class="text-gray-400 hover:text-gray-600 transition">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold"><path d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+
+                <!-- Search bar -->
+                <div class="px-6 py-4 border-b border-gray-100">
+                    <div class="relative">
+                        <input 
+                            x-model="search"
+                            type="text" 
+                            placeholder="Rechercher un bâtiment ou une salle..." 
+                            class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                        >
+                        <span class="absolute left-3 top-2.5 text-gray-400">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Content: Accordion List -->
+                <div class="flex-grow overflow-y-auto p-6 space-y-4 bg-gray-50/30">
+                    @foreach($buildings as $building)
+                        <div 
+                            x-data="{ open: false }" 
+                            class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
+                            x-show="search === '' || '{{ addslashes($building->name) }}'.toLowerCase().includes(search.toLowerCase()) || {{ count($building->children) > 0 ? 'true' : 'false' }}"
+                        >
+                            <div 
+                                class="px-5 py-3 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition"
+                                @click="open = !open"
+                            >
+                                <div class="flex items-center space-x-3">
+                                    <div class="p-2 bg-indigo-50 rounded-lg text-indigo-600 font-bold">🏢</div>
+                                    <span class="font-bold text-gray-800">{{ $building->name }}</span>
+                                    <span class="text-xs text-gray-400 uppercase tracking-tighter">{{ count($building->children) }} salles</span>
+                                </div>
+                                <svg 
+                                    class="h-5 w-5 text-gray-400 transition-transform duration-200" 
+                                    :class="{ 'rotate-180': open }"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                >
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+
+                            <div x-show="open" x-transition class="px-5 pb-4 border-t border-gray-50">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">
+                                    @foreach($building->children as $room)
+                                        <label 
+                                            class="flex items-center p-3 rounded-lg border border-gray-100 hover:border-indigo-200 hover:bg-indigo-50/30 transition cursor-pointer"
+                                            x-show="search === '' || '{{ addslashes($room->name) }}'.toLowerCase().includes(search.toLowerCase())"
+                                        >
+                                            <input 
+                                                type="checkbox" 
+                                                name="locations[]" 
+                                                value="{{ $room->id }}"
+                                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                                :checked="selectedLocations.includes({{ $room->id }})"
+                                                @change="toggleLocation({{ $room->id }})"
+                                            >
+                                            <span class="ml-3 text-sm text-gray-700 font-medium">{{ $room->name }}</span>
+                                        </label>
+                                    @endforeach
+                                    
+                                    @if(count($building->children) == 0)
+                                        <label 
+                                            class="col-span-2 flex items-center p-3 rounded-lg border border-indigo-100 bg-indigo-50/30 transition cursor-pointer"
+                                        >
+                                            <input 
+                                                type="checkbox" 
+                                                name="locations[]" 
+                                                value="{{ $building->id }}"
+                                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                                :checked="selectedLocations.includes({{ $building->id }})"
+                                                @change="toggleLocation({{ $building->id }})"
+                                            >
+                                            <span class="ml-3 text-sm text-indigo-700 font-bold italic">Bâtiment entier (Zone unique)</span>
+                                        </label>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Footer -->
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end items-center gap-3">
+                    <span class="text-xs text-gray-500 mr-auto">
+                        <span x-text="selectedLocations.length" class="font-bold text-indigo-600"></span> zone(s) sélectionnée(s)
+                    </span>
+                    <button type="button" onclick="hideAssignmentModal()" class="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-gray-900 transition">Annuler</button>
+                    <form id="assign-agent-form" method="POST">
+                        @csrf
+                        <!-- On va injecter les inputs hidden via JS pour selectedLocations -->
+                        <div id="hidden-locations-container"></div>
+                        <button type="submit" class="px-6 py-2 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition shadow-lg shadow-indigo-100">
+                            Enregistrer les zones
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function editAgent(agentId) {
             alert('Modification de l\'agent ID: ' + agentId);
         }
+
+        function showAssignmentModal(agentId, agentName, assignedIds) {
+            const modal = document.getElementById('assignment-modal');
+            const form = document.getElementById('assign-agent-form');
+            const nameSpan = document.getElementById('assign-agent-name');
+            
+            form.action = `/agents/${agentId}/assignments`;
+            nameSpan.innerText = agentName;
+            
+            // Accéder aux données Alpine.js
+            const alpineData = LaravelData.getAlpineData(modal);
+            if (alpineData) {
+                alpineData.selectedLocations = assignedIds;
+            } else {
+                // Fallback direct si x-data n'est pas encore initialisé
+                modal.__x.$data.selectedLocations = assignedIds;
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function hideAssignmentModal() {
+            document.getElementById('assignment-modal').classList.add('hidden');
+        }
+
+        // Intercepter la soumission pour injecter les IDs
+        document.getElementById('assign-agent-form').addEventListener('submit', function(e) {
+            const modal = document.getElementById('assignment-modal');
+            const container = document.getElementById('hidden-locations-container');
+            const selectedIds = modal.__x.$data.selectedLocations;
+            
+            container.innerHTML = '';
+            selectedIds.forEach(id => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'locations[]';
+                input.value = id;
+                container.appendChild(input);
+            });
+        });
+
+        // Helper pour Alpine si besoin
+        window.LaravelData = {
+            getAlpineData(el) {
+                return el.__x?.$data;
+            }
+        };
 
         function showDeleteModal(agentId, agentName) {
             const modal = document.getElementById('delete-confirm-modal');
@@ -166,7 +351,6 @@
             form.action = `/agents/${agentId}`;
             nameSpan.innerText = agentName;
             
-            // Afficher avec une petite animation si possible (en changeant juste de classe ici)
             modal.classList.remove('hidden');
         }
 

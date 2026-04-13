@@ -40,4 +40,13 @@ class Location extends Model
     {
         return $this->belongsTo(Location::class, 'locations_id');
     }
+
+    /**
+     * Les agents assignés à ce local.
+     */
+    public function agents()
+    {
+        return $this->belongsToMany(Agent::class, 'agent_location', 'location_id', 'agent_id')
+                    ->withTimestamps();
+    }
 }

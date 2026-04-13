@@ -15,8 +15,12 @@ class Agent extends Model
         'user_id'
     ];
 
-    public function user()
+    /**
+     * Les locaux assignés à cet agent.
+     */
+    public function locations()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(Location::class, 'agent_location', 'agent_id', 'location_id')
+                    ->withTimestamps();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agent;
 use App\Models\User;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,8 +15,31 @@ class AgentController extends Controller
      */
     public function index()
     {
-        $agents = Agent::with('user')->orderBy('nom')->get();
-        return view('agents.index', compact('agents'));
+        $agents = Agent::with(['user', 'locations'])->orderBy('nom')->get();
+        // Récupérer les bâtiments avec leurs salles pour le modal d'affectation
+        $buildings = Location::where('locations_id', 0)
+            ->with(['children' => function($query) {
+                $query->orderBy('name');
+            }])
+            ->orderBy('name')
+            ->get();
+
+        return view('agents.index', compact('agents', 'buildings'));
+    }
+
+    /**
+     * Mettre à jour les affectations de zones pour un agent.
+     */
+    public function updateAssignments(Request $request, Agent $agent)
+    {
+        $validated = $request->validate([
+            'locations' => 'nullable|array',
+            'locations.*' => 'exists:glpi_locations,id'
+        ]);
+
+        $agent->locations()->sync($validated['locations'] ?? []);
+
+        return redirect()->route('agents.index')->with('success', 'Affectations mises à jour pour ' . $agent->prenom . ' ' . $agent->nom);
     }
 
     /**
