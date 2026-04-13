@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AgentController extends Controller
 {
@@ -56,36 +57,34 @@ class AgentController extends Controller
             'password' => 'required|string|min:8',
         ];
 
-        // Ajouter la validation du rôle seulement pour les super_admins
         if ($request->user()->role === 'super_admin') {
-            $rules['role'] = 'nullable|string|in:admin,utilisateur';
+            $rules['role'] = 'nullable|string|in:super_admin,admin,utilisateur';
         }
 
         $validated = $request->validate($rules);
 
-        // Déterminer le rôle final
-        $finalRole = 'utilisateur'; // Par défaut
+        $finalRole = 'utilisateur';
         if ($request->user()->role === 'super_admin' && !empty($validated['role'])) {
             $finalRole = $validated['role'];
         }
 
-        // 1. Créer le compte utilisateur
-        $user = User::create([
-            'name' => $validated['prenom'] . ' ' . $validated['nom'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'must_change_password' => true,
-            'role' => $finalRole,
-        ]);
+        return DB::transaction(function () use ($validated, $finalRole) {
+            $user = User::create([
+                'name' => $validated['prenom'] . ' ' . $validated['nom'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+                'must_change_password' => true,
+                'role' => $finalRole,
+            ]);
 
-        // 2. Créer l'agent lié
-        $agentData = $validated;
-        unset($agentData['password'], $agentData['role']);
-        $agentData['user_id'] = $user->id;
+            $agentData = $validated;
+            unset($agentData['password'], $agentData['role']);
+            $agentData['user_id'] = $user->id;
 
-        Agent::create($agentData);
+            Agent::create($agentData);
 
-        return redirect()->route('agents.index')->with('success', 'Agent et compte utilisateur créés avec succès (Rôle: ' . $finalRole . ').');
+            return redirect()->route('agents.index')->with('success', 'Agent et compte utilisateur créés avec succès.');
+        });
     }
 
     /**
@@ -93,17 +92,46 @@ class AgentController extends Controller
      */
     public function update(Request $request, Agent $agent)
     {
-        $validated = $request->validate([
+        $rules = [
             'nom' => 'required|string|max:100',
             'prenom' => 'required|string|max:100',
             'initiales' => 'required|string|max:10',
-            'email' => 'nullable|email|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . ($agent->user_id ?? 0),
             'statut' => 'required|string|in:actif,inactif',
-        ]);
+        ];
 
-        $agent->update($validated);
+        if ($request->user()->role === 'super_admin') {
+            $rules['role'] = 'required|string|in:super_admin,admin,utilisateur';
+        }
 
-        return redirect()->route('agents.index')->with('success', 'Agent mis à jour avec succès');
+        $validated = $request->validate($rules);
+
+        return DB::transaction(function () use ($validated, $agent, $request) {
+            // Mise à jour de l'agent
+            $agent->update([
+                'nom' => $validated['nom'],
+                'prenom' => $validated['prenom'],
+                'initiales' => $validated['initiales'],
+                'email' => $validated['email'],
+                'statut' => $validated['statut'],
+            ]);
+
+            // Mise à jour de l'utilisateur lié
+            if ($agent->user) {
+                $userData = [
+                    'name' => $validated['prenom'] . ' ' . $validated['nom'],
+                    'email' => $validated['email'],
+                ];
+
+                if ($request->user()->role === 'super_admin' && !empty($validated['role'])) {
+                    $userData['role'] = $validated['role'];
+                }
+
+                $agent->user->update($userData);
+            }
+
+            return redirect()->route('agents.index')->with('success', 'Agent mis à jour avec succès');
+        });
     }
 
     /**
@@ -111,7 +139,7 @@ class AgentController extends Controller
      */
     public function destroy(Agent $agent)
     {
-        \Illuminate\Support\Facades\DB::transaction(function () use ($agent) {
+        return DB::transaction(function () use ($agent) {
             if ($agent->user) {
                 $agent->user->delete();
             }

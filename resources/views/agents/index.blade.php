@@ -87,7 +87,12 @@
                                             >
                                                 Zones
                                             </button>
-                                            <button onclick="editAgent({{ $agent->id }})" class="text-indigo-600 hover:text-indigo-900 mr-3 transition">Modifier</button>
+                                            <button 
+                                                onclick='editAgent({{ $agent->id }}, { id: {{ $agent->id }}, nom: "{{ addslashes($agent->nom) }}", prenom: "{{ addslashes($agent->prenom) }}", initiales: "{{ addslashes($agent->initiales) }}", email: "{{ addslashes($agent->email) }}", role: "{{ $agent->user->role ?? "utilisateur" }}", statut: "{{ $agent->statut }}" })' 
+                                                class="text-indigo-600 hover:text-indigo-900 mr-3 transition font-semibold"
+                                            >
+                                                Modifier
+                                            </button>
                                             <button 
                                                 type="button" 
                                                 onclick="showDeleteModal({{ $agent->id }}, '{{ addslashes($agent->prenom) }} {{ addslashes($agent->nom) }}')" 
@@ -106,6 +111,138 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal d'Ajout d'Agent (Premium) -->
+    <div id="add-agent-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4 sm:p-6">
+            <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="document.getElementById('add-agent-modal').classList.add('hidden')"></div>
+            
+            <div class="relative bg-white rounded-2xl shadow-2xl transform transition-all max-w-2xl w-full overflow-hidden">
+                <form action="{{ route('agents.store') }}" method="POST" class="p-8">
+                    @csrf
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-extrabold text-gray-900 border-b-4 border-indigo-500 pb-1">Nouvel Agent</h3>
+                        <button type="button" onclick="document.getElementById('add-agent-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 transition">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold"><path d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Prénom</label>
+                            <input type="text" name="prenom" required class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-all bg-gray-50/50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Nom</label>
+                            <input type="text" name="nom" required class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-all bg-gray-50/50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Initiales</label>
+                            <input type="text" name="initiales" required maxlength="10" placeholder="ex: JD" class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-all bg-gray-50/50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Email (Identifiant)</label>
+                            <input type="email" name="email" required class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-all bg-gray-50/50">
+                        </div>
+                        
+                        @if(Auth::user()->role === 'super_admin')
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Rôle</label>
+                                <select name="role" class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-all bg-gray-50/50 font-semibold text-gray-700">
+                                    <option value="utilisateur">Utilisateur (Agent standard)</option>
+                                    <option value="admin">Administrateur (Gestionnaire)</option>
+                                    <option value="super_admin">Super Administrateur</option>
+                                </select>
+                            </div>
+                        @endif
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Mot de passe provisoire</label>
+                            <div class="relative">
+                                <input type="text" name="password" required value="Bionet2026!" class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-all bg-gray-50/100 font-mono text-indigo-600 font-bold">
+                                <p class="mt-1 text-[10px] text-gray-400 italic">L'agent devra changer son mot de passe à la première connexion.</p>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="statut" value="actif">
+                    </div>
+
+                    <div class="mt-10 flex justify-end gap-3">
+                        <button type="button" onclick="document.getElementById('add-agent-modal').classList.add('hidden')" class="px-6 py-3 text-sm font-bold text-gray-500 hover:text-gray-700 transition">Annuler</button>
+                        <button type="submit" class="px-10 py-3 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition shadow-xl shadow-indigo-100">
+                            Créer l'agent
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Modification d'Agent (Premium) -->
+    <div id="edit-agent-modal" class="hidden fixed inset-0 z-50 overflow-y-auto" x-data="{ agent: {} }" x-on:open-edit-modal.window="agent = $event.detail; document.getElementById('edit-agent-modal').classList.remove('hidden')">
+        <div class="flex items-center justify-center min-h-screen p-4 sm:p-6">
+            <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="document.getElementById('edit-agent-modal').classList.add('hidden')"></div>
+            
+            <div class="relative bg-white rounded-2xl shadow-2xl transform transition-all max-w-2xl w-full overflow-hidden">
+                <form :action="'/agents/' + agent.id" method="POST" class="p-8">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-extrabold text-gray-900 border-b-4 border-indigo-500 pb-1">Modifier l'Agent</h3>
+                        <button type="button" onclick="document.getElementById('edit-agent-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 transition">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold"><path d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Prénom</label>
+                            <input type="text" name="prenom" x-model="agent.prenom" required class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-all bg-gray-50/50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Nom</label>
+                            <input type="text" name="nom" x-model="agent.nom" required class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-all bg-gray-50/50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Initiales</label>
+                            <input type="text" name="initiales" x-model="agent.initiales" required maxlength="10" class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-all bg-gray-50/50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Email</label>
+                            <input type="email" name="email" x-model="agent.email" required class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-all bg-gray-50/50">
+                        </div>
+                        
+                        @if(Auth::user()->role === 'super_admin')
+                            <div class="md:col-span-1">
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Rôle</label>
+                                <select name="role" x-model="agent.role" class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 font-bold text-indigo-700">
+                                    <option value="utilisateur">Utilisateur</option>
+                                    <option value="admin">Administrateur</option>
+                                    <option value="super_admin">Super Administrateur</option>
+                                </select>
+                            </div>
+                        @endif
+
+                        <div class="md:col-span-1">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Statut</label>
+                            <select name="statut" x-model="agent.statut" class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 font-bold transition-all" :class="agent.statut === 'actif' ? 'text-green-600' : 'text-red-600'">
+                                <option value="actif">Actif</option>
+                                <option value="inactif">Inactif</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 flex justify-end gap-3">
+                        <button type="button" onclick="document.getElementById('edit-agent-modal').classList.add('hidden')" class="px-6 py-3 text-sm font-bold text-gray-500 hover:text-gray-700 transition">Annuler</button>
+                        <button type="submit" class="px-10 py-3 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition shadow-xl shadow-indigo-100">
+                            Enregistrer les modifications
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -299,8 +436,11 @@
     </div>
 
     <script>
-        function editAgent(agentId) {
-            alert('Modification de l\'agent ID: ' + agentId);
+        function editAgent(agentId, agentData) {
+            // Envoyer un événement pour Alpine.js dans le modal de modification
+            window.dispatchEvent(new CustomEvent('open-edit-modal', {
+                detail: agentData
+            }));
         }
 
         function showAssignmentModal(agentId, agentName, assignedIds) {
