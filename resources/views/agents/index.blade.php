@@ -167,6 +167,8 @@
         x-data="{ 
             search: '', 
             selectedLocations: [],
+            agentName: '',
+            formAction: '',
             toggleLocation(id) {
                 if (this.selectedLocations.includes(id)) {
                     this.selectedLocations = this.selectedLocations.filter(i => i !== id);
@@ -175,6 +177,12 @@
                 }
             }
         }"
+        x-on:open-assignment-modal.window="
+            selectedLocations = $event.detail.ids;
+            agentName = $event.detail.name;
+            formAction = $event.detail.action;
+            document.getElementById('assignment-modal').classList.remove('hidden');
+        "
     >
         <div class="flex items-center justify-center min-h-screen p-4 sm:p-6">
             <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="hideAssignmentModal()"></div>
@@ -184,7 +192,7 @@
                 <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                     <div>
                         <h3 class="text-xl font-extrabold text-gray-900">Affectation des Zones</h3>
-                        <p class="text-sm text-gray-500">Agent : <span id="assign-agent-name" class="font-bold text-indigo-600"></span></p>
+                        <p class="text-sm text-gray-500">Agent : <span class="font-bold text-indigo-600" x-text="agentName"></span></p>
                     </div>
                     <button onclick="hideAssignmentModal()" class="text-gray-400 hover:text-gray-600 transition">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold"><path d="M6 18L18 6M6 6l12 12" /></svg>
@@ -241,7 +249,6 @@
                                         >
                                             <input 
                                                 type="checkbox" 
-                                                name="locations[]" 
                                                 value="{{ $room->id }}"
                                                 class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                                                 :checked="selectedLocations.includes({{ $room->id }})"
@@ -257,7 +264,6 @@
                                         >
                                             <input 
                                                 type="checkbox" 
-                                                name="locations[]" 
                                                 value="{{ $building->id }}"
                                                 class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                                                 :checked="selectedLocations.includes({{ $building->id }})"
@@ -278,10 +284,11 @@
                         <span x-text="selectedLocations.length" class="font-bold text-indigo-600"></span> zone(s) sélectionnée(s)
                     </span>
                     <button type="button" onclick="hideAssignmentModal()" class="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-gray-900 transition">Annuler</button>
-                    <form id="assign-agent-form" method="POST">
+                    <form :action="formAction" method="POST">
                         @csrf
-                        <!-- On va injecter les inputs hidden via JS pour selectedLocations -->
-                        <div id="hidden-locations-container"></div>
+                        <template x-for="id in selectedLocations" :key="id">
+                            <input type="hidden" name="locations[]" :value="id">
+                        </template>
                         <button type="submit" class="px-6 py-2 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition shadow-lg shadow-indigo-100">
                             Enregistrer les zones
                         </button>
@@ -297,51 +304,19 @@
         }
 
         function showAssignmentModal(agentId, agentName, assignedIds) {
-            const modal = document.getElementById('assignment-modal');
-            const form = document.getElementById('assign-agent-form');
-            const nameSpan = document.getElementById('assign-agent-name');
-            
-            form.action = `/agents/${agentId}/assignments`;
-            nameSpan.innerText = agentName;
-            
-            // Accéder aux données Alpine.js
-            const alpineData = LaravelData.getAlpineData(modal);
-            if (alpineData) {
-                alpineData.selectedLocations = assignedIds;
-            } else {
-                // Fallback direct si x-data n'est pas encore initialisé
-                modal.__x.$data.selectedLocations = assignedIds;
-            }
-            
-            modal.classList.remove('hidden');
+            // Envoyer un événement personnalisé capté par Alpine.js
+            window.dispatchEvent(new CustomEvent('open-assignment-modal', {
+                detail: {
+                    ids: assignedIds,
+                    name: agentName,
+                    action: `/agents/${agentId}/assignments`
+                }
+            }));
         }
 
         function hideAssignmentModal() {
             document.getElementById('assignment-modal').classList.add('hidden');
         }
-
-        // Intercepter la soumission pour injecter les IDs
-        document.getElementById('assign-agent-form').addEventListener('submit', function(e) {
-            const modal = document.getElementById('assignment-modal');
-            const container = document.getElementById('hidden-locations-container');
-            const selectedIds = modal.__x.$data.selectedLocations;
-            
-            container.innerHTML = '';
-            selectedIds.forEach(id => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'locations[]';
-                input.value = id;
-                container.appendChild(input);
-            });
-        });
-
-        // Helper pour Alpine si besoin
-        window.LaravelData = {
-            getAlpineData(el) {
-                return el.__x?.$data;
-            }
-        };
 
         function showDeleteModal(agentId, agentName) {
             const modal = document.getElementById('delete-confirm-modal');
