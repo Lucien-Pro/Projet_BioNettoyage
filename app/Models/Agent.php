@@ -16,6 +16,14 @@ class Agent extends Model
     ];
 
     /**
+     * Le compte utilisateur lié.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * Les locaux assignés à cet agent.
      */
     public function locations()
