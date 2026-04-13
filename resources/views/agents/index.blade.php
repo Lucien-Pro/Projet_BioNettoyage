@@ -82,20 +82,33 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button 
                                                 type="button" 
-                                                onclick="showAssignmentModal({{ $agent->id }}, '{{ addslashes($agent->prenom) }} {{ addslashes($agent->nom) }}', {{ $agent->locations->pluck('id') }})" 
+                                                onclick="handleAssignment(this)" 
+                                                data-id="{{ $agent->id }}" 
+                                                data-name="{{ addslashes($agent->prenom) }} {{ addslashes($agent->nom) }}" 
+                                                data-assigned='{{ $agent->locations->pluck("id") }}'
                                                 class="text-green-600 hover:text-green-900 mr-3 transition font-semibold"
                                             >
                                                 Zones
                                             </button>
                                             <button 
-                                                onclick='editAgent({{ $agent->id }}, { id: {{ $agent->id }}, nom: "{{ addslashes($agent->nom) }}", prenom: "{{ addslashes($agent->prenom) }}", initiales: "{{ addslashes($agent->initiales) }}", email: "{{ addslashes($agent->email) }}", role: "{{ $agent->user->role ?? "utilisateur" }}", statut: "{{ $agent->statut }}" })' 
+                                                type="button"
+                                                onclick="handleEdit(this)" 
+                                                data-id="{{ $agent->id }}" 
+                                                data-nom="{{ addslashes($agent->nom) }}" 
+                                                data-prenom="{{ addslashes($agent->prenom) }}" 
+                                                data-initiales="{{ addslashes($agent->initiales) }}" 
+                                                data-email="{{ addslashes($agent->email) }}" 
+                                                data-role="{{ $agent->user->role ?? 'utilisateur' }}" 
+                                                data-statut="{{ $agent->statut }}"
                                                 class="text-indigo-600 hover:text-indigo-900 mr-3 transition font-semibold"
                                             >
                                                 Modifier
                                             </button>
                                             <button 
                                                 type="button" 
-                                                onclick="showDeleteModal({{ $agent->id }}, '{{ addslashes($agent->prenom) }} {{ addslashes($agent->nom) }}')" 
+                                                onclick="handleDelete(this)" 
+                                                data-id="{{ $agent->id }}" 
+                                                data-name="{{ addslashes($agent->prenom) }} {{ addslashes($agent->nom) }}" 
                                                 class="text-red-600 hover:text-red-900 transition"
                                             >
                                                 Supprimer
@@ -434,20 +447,28 @@
     </div>
 
     <script>
-        function editAgent(agentId, agentData) {
-            // Envoyer un événement pour Alpine.js dans le modal de modification
+        function handleEdit(btn) {
+            const data = btn.dataset;
             window.dispatchEvent(new CustomEvent('open-edit-modal', {
-                detail: agentData
+                detail: {
+                    id: data.id,
+                    nom: data.nom,
+                    prenom: data.prenom,
+                    initiales: data.initiales,
+                    email: data.email,
+                    role: data.role,
+                    statut: data.statut
+                }
             }));
         }
 
-        function showAssignmentModal(agentId, agentName, assignedIds) {
-            // Envoyer un événement personnalisé capté par Alpine.js
+        function handleAssignment(btn) {
+            const data = btn.dataset;
             window.dispatchEvent(new CustomEvent('open-assignment-modal', {
                 detail: {
-                    ids: assignedIds,
-                    name: agentName,
-                    action: `/agents/${agentId}/assignments`
+                    ids: JSON.parse(data.assigned),
+                    name: data.name,
+                    action: `/agents/${data.id}/assignments`
                 }
             }));
         }
@@ -456,13 +477,14 @@
             document.getElementById('assignment-modal').classList.add('hidden');
         }
 
-        function showDeleteModal(agentId, agentName) {
+        function handleDelete(btn) {
+            const data = btn.dataset;
             const modal = document.getElementById('delete-confirm-modal');
             const form = document.getElementById('delete-agent-form');
             const nameSpan = document.getElementById('delete-agent-name');
             
-            form.action = `/agents/${agentId}`;
-            nameSpan.innerText = agentName;
+            form.action = `/agents/${data.id}`;
+            nameSpan.innerText = data.name;
             
             modal.classList.remove('hidden');
         }

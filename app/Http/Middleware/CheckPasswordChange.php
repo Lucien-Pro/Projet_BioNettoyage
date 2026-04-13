@@ -6,6 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Illuminate\Support\Facades\Auth;
+
 class CheckPasswordChange
 {
     /**
@@ -15,7 +17,7 @@ class CheckPasswordChange
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->must_change_password && !$request->routeIs('password.force-change', 'password.force-change.update', 'logout')) {
+        if (Auth::check() && Auth::user()->must_change_password && !$request->routeIs('password.force-change', 'password.force-change.update', 'logout')) {
             return redirect()->route('password.force-change');
         }
 
