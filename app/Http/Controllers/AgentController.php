@@ -87,7 +87,13 @@ class AgentController extends Controller
      */
     public function destroy(Agent $agent)
     {
-        $agent->delete();
-        return redirect()->route('agents.index')->with('success', 'Agent supprimé avec succès');
+        \Illuminate\Support\Facades\DB::transaction(function () use ($agent) {
+            if ($agent->user) {
+                $agent->user->delete();
+            }
+            $agent->delete();
+        });
+
+        return redirect()->route('agents.index')->with('success', 'Agent et compte utilisateur supprimés avec succès');
     }
 }
