@@ -18,7 +18,8 @@ return new class extends Migration
         Schema::create('plannings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('agent_id')->constrained()->onDelete('cascade');
-            $table->foreignId('location_id')->constrained('glpi_locations')->onDelete('cascade');
+            $table->unsignedInteger('location_id');
+            $table->foreign('location_id')->references('id')->on('glpi_locations')->onDelete('cascade');
             $table->unsignedTinyInteger('day_of_week'); // 1 = Lundi, 7 = Dimanche
             $table->timestamps();
 

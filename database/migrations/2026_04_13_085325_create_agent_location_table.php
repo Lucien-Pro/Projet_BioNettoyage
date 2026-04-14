@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('agent_location', function (Blueprint $table) {
             $table->id();
             $table->foreignId('agent_id')->constrained()->onDelete('cascade');
-            // glpi_locations.id est un bigInt non signé dans le SQL importé
-            $table->unsignedBigInteger('location_id');
+            // glpi_locations.id est un entier normal non signé dans le SQL importé (int unsigned)
+            $table->unsignedInteger('location_id');
             $table->foreign('location_id')->references('id')->on('glpi_locations')->onDelete('cascade');
             $table->timestamps();
         });
