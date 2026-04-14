@@ -130,17 +130,20 @@
                                 <div class="font-semibold">{{ $agent->prenom }} {{ $agent->nom }}</div>
                                 <div class="flex items-center space-x-2">
                                     <span class="text-xs text-gray-400">{{ $agent->user->role ?? 'Agent' }}</span>
-                                    @if($agent->locations->count() > 0)
+                                    @php
+                                        $agentLocations = $agent->plannings->pluck('location')->filter()->unique('id');
+                                    @endphp
+                                    @if($agentLocations->count() > 0)
                                         <span class="text-gray-300">•</span>
                                         <div class="flex flex-wrap gap-1">
-                                            @foreach($agent->locations->take(3) as $loc)
+                                            @foreach($agentLocations->take(3) as $loc)
                                                 <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-600 border border-blue-100">
                                                     {{ $loc->name }}
                                                 </span>
                                             @endforeach
-                                            @if($agent->locations->count() > 3)
+                                            @if($agentLocations->count() > 3)
                                                 <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-gray-50 text-gray-500 border border-gray-100">
-                                                    +{{ $agent->locations->count() - 3 }}
+                                                    +{{ $agentLocations->count() - 3 }}
                                                 </span>
                                             @endif
                                         </div>
