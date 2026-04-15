@@ -111,12 +111,9 @@ class AgentController extends Controller
         });
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Agent $agent)
     {
-        return DB::transaction(function () use ($agent) {
+        DB::transaction(function () use ($agent) {
             if ($agent->user) {
                 $agent->user->delete();
             }
