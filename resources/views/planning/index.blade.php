@@ -27,9 +27,10 @@
                             <thead>
                                 <tr class="bg-gray-50/50">
                                     <th class="p-4 border-b border-gray-100 text-left text-xs font-bold text-gray-400 uppercase tracking-widest w-48">Agent</th>
-                                    @foreach($days as $num => $label)
+                                    @foreach($days as $num => $day)
                                         <th class="p-4 border-b border-gray-100 text-center text-xs font-bold text-gray-400 uppercase tracking-widest min-w-[150px]">
-                                            {{ $label }}
+                                            <div class="text-gray-900">{{ $day['label'] }}</div>
+                                            <div class="text-[10px] text-indigo-500 font-medium">{{ $day['date'] }}</div>
                                         </th>
                                     @endforeach
                                 </tr>
@@ -49,11 +50,11 @@
                                             </div>
                                         </td>
                                         
-                                        @foreach($days as $dayNum => $dayLabel)
+                                        @foreach($days as $dayNum => $day)
                                             <td class="p-2 border-l border-gray-50 align-top">
                                                 <div 
                                                     class="min-h-[80px] rounded-xl border-2 border-dashed border-gray-100 hover:border-indigo-200 hover:bg-white transition-all cursor-pointer p-2 flex flex-col gap-1"
-                                                    @click="openSelector({{ $agent->id }}, {{ $dayNum }}, '{{ addslashes($agent->prenom) }} {{ addslashes($agent->nom) }}', '{{ $dayLabel }}')"
+                                                    @click="openSelector({{ $agent->id }}, {{ $dayNum }}, '{{ addslashes($agent->prenom) }} {{ addslashes($agent->nom) }}', '{{ $day['label'] }} {{ $day['date'] }}')"
                                                 >
                                                     @php 
                                                         $dailyPlannings = $agent->plannings->where('day_of_week', $dayNum);

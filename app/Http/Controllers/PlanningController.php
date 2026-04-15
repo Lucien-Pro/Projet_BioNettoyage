@@ -24,15 +24,16 @@ class PlanningController extends Controller
             ->orderBy('name')
             ->get();
 
-        $days = [
-            1 => 'Lundi',
-            2 => 'Mardi',
-            3 => 'Mercredi',
-            4 => 'Jeudi',
-            5 => 'Vendredi',
-            6 => 'Samedi',
-            7 => 'Dimanche',
-        ];
+        $startOfWeek = now()->startOfWeek();
+        $days = [];
+        for ($i = 1; $i <= 7; $i++) {
+            $date = $startOfWeek->copy()->addDays($i - 1);
+            $days[$i] = [
+                'label' => $date->translatedFormat('l'),
+                'date' => $date->translatedFormat('d F'),
+                'full_date' => $date->toDateString(),
+            ];
+        }
 
         return view('planning.index', compact('agents', 'buildings', 'days'));
     }
