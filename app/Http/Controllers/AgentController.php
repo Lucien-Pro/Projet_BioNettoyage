@@ -8,6 +8,8 @@ use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewAccountMail;
 
 class AgentController extends Controller
 {
@@ -45,7 +47,7 @@ class AgentController extends Controller
             $finalRole = $validated['role'];
         }
 
-        return DB::transaction(function () use ($validated, $finalRole) {
+        return DB::transaction(function () use ($validated, $finalRole, $request) {
             $user = User::create([
                 'name' => $validated['prenom'] . ' ' . $validated['nom'],
                 'email' => $validated['email'],
@@ -60,7 +62,14 @@ class AgentController extends Controller
 
             Agent::create($agentData);
 
-            return redirect()->route('agents.index')->with('success', 'Agent et compte utilisateur créés avec succès.');
+            try {
+                Mail::to($user->email)->send(new NewAccountMail($user, $validated['password']));
+                $successMessage = 'Agent et compte utilisateur créés avec succès. Un e-mail a été envoyé.';
+            } catch (\Exception $e) {
+                $successMessage = 'Agent créé avec succès, mais l\'e-mail n\'a pas pu être envoyé : ' . $e->getMessage();
+            }
+
+            return redirect()->route('agents.index')->with('success', $successMessage);
         });
     }
 
