@@ -40,12 +40,4 @@ class Agent extends Model
         $dayOfWeek = now()->format('N');
         return $this->hasMany(Planning::class)->where('day_of_week', $dayOfWeek);
     }
-
-    /**
-     * Les lieux associés à l'agent.
-     */
-    public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Location::class, 'agent_location');
-    }
 }

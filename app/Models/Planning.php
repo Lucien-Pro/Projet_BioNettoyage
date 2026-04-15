@@ -16,6 +16,12 @@ class Planning extends Model
         'day_of_week',
     ];
 
+    protected $casts = [
+        'day_of_week' => 'integer',
+        'agent_id' => 'integer',
+        'location_id' => 'integer',
+    ];
+
     /**
      * L'agent à qui appartient cette entrée de planning.
      */

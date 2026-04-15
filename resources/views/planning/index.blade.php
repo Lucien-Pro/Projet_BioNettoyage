@@ -60,15 +60,17 @@
                                                     @endphp
                                                     
                                                     @forelse($dailyPlannings as $p)
-                                                        <div class="flex items-center justify-between group px-2 py-1 bg-indigo-50 text-indigo-700 rounded-lg text-[10px] font-bold border border-indigo-100 shadow-sm animate-fade-in">
-                                                            <span class="truncate">{{ $p->location->name }}</span>
-                                                            <button 
-                                                                @click.stop="removeItem({{ $p->id }}, {{ $agent->id }}, {{ $dayNum }}, {{ $p->location->id }})" 
-                                                                class="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 transition ml-1"
-                                                            >
-                                                                <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold"><path d="M6 18L18 6M6 6l12 12" /></svg>
-                                                            </button>
-                                                        </div>
+                                                        @if($p->location)
+                                                            <div class="flex items-center justify-between group px-2 py-1 bg-indigo-50 text-indigo-700 rounded-lg text-[10px] font-bold border border-indigo-100 shadow-sm animate-fade-in">
+                                                                <span class="truncate">{{ $p->location->name }}</span>
+                                                                <button 
+                                                                    @click.stop="removeItem({{ $p->id }}, {{ $agent->id }}, {{ $dayNum }}, {{ $p->location->id }})" 
+                                                                    class="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 transition ml-1"
+                                                                >
+                                                                    <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold"><path d="M6 18L18 6M6 6l12 12" /></svg>
+                                                                </button>
+                                                            </div>
+                                                        @endif
                                                     @empty
                                                         <div class="flex-grow flex items-center justify-center">
                                                             <span class="text-[10px] text-gray-300 font-bold uppercase tracking-widest">+ Ajouter</span>

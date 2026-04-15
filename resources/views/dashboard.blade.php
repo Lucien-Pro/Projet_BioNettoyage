@@ -63,8 +63,9 @@
 
                         <div class="space-y-3">
                             @php
-                                $agent = Auth::user()->role === 'super_admin' ? null : Auth::user()->agent;
+                                $agent = Auth::user()->agent;
                                 $tasks = $agent ? $agent->todayPlannings()->with('location.parent')->get() : collect();
+                                $hasWeeklyAssignments = $agent ? $agent->plannings()->exists() : false;
                             @endphp
 
                             @forelse($tasks as $task)
@@ -96,8 +97,15 @@
                             @empty
                                 <div class="p-8 text-center bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
                                     <div class="text-4xl mb-3">☕</div>
-                                    <p class="text-gray-500 font-bold">Rien de prévu pour vous aujourd'hui !</p>
-                                    <p class="text-xs text-gray-400 mt-1 italic">Profitez-en pour mettre à jour vos stocks ou aider un collègue.</p>
+                                    @if($hasWeeklyAssignments)
+                                        <p class="text-gray-500 font-bold">Rien de prévu pour vous aujourd'hui !</p>
+                                        <p class="text-xs text-gray-400 mt-1 italic">Mais vous avez des zones prévues d'autres jours de la semaine.</p>
+                                    @else
+                                        <p class="text-gray-500 font-bold">Aucune zone ne vous est encore attribuée.</p>
+                                        @if(Auth::user()->role === 'super_admin' || Auth::user()->role === 'admin')
+                                            <p class="text-xs text-gray-400 mt-1 italic">Allez dans l'onglet <strong>Planning</strong> pour vous affecter des locaux.</p>
+                                        @endif
+                                    @endif
                                 </div>
                             @endforelse
                         </div>
