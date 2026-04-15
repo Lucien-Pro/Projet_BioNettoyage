@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Mail\NewAccountMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -40,12 +42,18 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'must_change_password' => true,
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
+        try {
+            Mail::to($user->email)->send(new NewAccountMail($user, $request->password));
+            $successMessage = 'Compte créé avec succès. Un e-mail a été envoyé à l\'utilisateur.';
+        } catch (\Exception $e) {
+            $successMessage = 'Compte créé avec succès, mais l\'e-mail n\'a pas pu être envoyé : ' . $e->getMessage();
+        }
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->back()->with('status', $successMessage);
     }
 }
