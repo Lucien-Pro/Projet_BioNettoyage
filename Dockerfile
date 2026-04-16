@@ -5,9 +5,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Installation des extensions PHP nécessaires et dépendances LDAP
 RUN apt-get update && \
-    apt-get install -y libldap2-dev && \
+    apt-get install -y libldap2-dev git unzip libzip-dev && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
-    docker-php-ext-install pdo pdo_mysql ldap
+    docker-php-ext-install pdo pdo_mysql ldap zip
 
 # Configuration spécifique LDAP pour autoriser le SSL sans vérification stricte du certificat
 RUN mkdir -p /etc/ldap && echo "TLS_REQCERT never" >> /etc/ldap/ldap.conf
