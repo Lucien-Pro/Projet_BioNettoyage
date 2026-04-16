@@ -1,5 +1,8 @@
 FROM php:8.2-apache
 
+# Installation de Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 # Installation des extensions PHP nécessaires et dépendances LDAP
 RUN apt-get update && \
     apt-get install -y libldap2-dev && \
