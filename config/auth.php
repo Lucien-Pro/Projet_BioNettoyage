@@ -74,6 +74,10 @@ return [
                     'email' => 'mail',
                 ],
             ],
+            'fallback' => [
+                'enabled' => true,
+                'password_key' => 'password',
+            ],
         ],
 
         // 'users' => [
