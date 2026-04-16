@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use App\Models\Agent;
 use Illuminate\Console\Command;
-use LdapRecord\Models\ActiveDirectory\Group;
 use LdapRecord\Models\ActiveDirectory\User as LdapUser;
+use LdapRecord\Models\ActiveDirectory\Entry;
 
 class LdapSyncAgents extends Command
 {
@@ -21,7 +21,7 @@ class LdapSyncAgents extends Command
      *
      * @var string
      */
-    protected $description = 'Synchronise les membres du groupe LDAP BioNettoyage vers la table des agents locale.';
+    protected $description = 'Synchronise les membres du groupe LDAP BioNettoyage de manière robuste.';
 
     /**
      * Execute the console command.
@@ -38,23 +38,29 @@ class LdapSyncAgents extends Command
         $this->info("Recherche du groupe : $groupDn");
 
         try {
-            $group = Group::find($groupDn);
+            // Utilisation d'Entry pour une recherche plus large du groupe
+            $group = Entry::find($groupDn);
 
             if (!$group) {
                 $this->error("Le groupe LDAP est introuvable : $groupDn");
                 return 1;
             }
 
-            $members = $group->members()->get();
+            // Récupération des DN bruts des membres (plus robuste pour les AD cloisonnées)
+            $memberDns = $group->getAttribute('member') ?? [];
+            $this->info(count($memberDns) . " membres détectés dans l'attribut du groupe.");
 
-            $this->info(count($members) . " membres trouvés dans le groupe.");
-
-            foreach ($members as $ldapUser) {
-                if (!$ldapUser instanceof LdapUser) {
-                    continue;
+            foreach ($memberDns as $dn) {
+                $this->info("Analyse du membre : $dn");
+                
+                // Recherche directe de l'utilisateur par son DN
+                $ldapUser = LdapUser::find($dn);
+                
+                if ($ldapUser) {
+                    $this->syncAgent($ldapUser);
+                } else {
+                    $this->warn("Impossible de charger les détails de l'utilisateur : $dn");
                 }
-
-                $this->syncAgent($ldapUser);
             }
 
             $this->info('Synchronisation terminée avec succès.');
@@ -75,18 +81,18 @@ class LdapSyncAgents extends Command
         $email = $ldapUser->getFirstAttribute('mail');
         $displayName = $ldapUser->getFirstAttribute('displayname') ?? $ldapUser->getName();
         
-        // Tentative d'extraction du nom et prénom depuis le displayname (souvent "NOM Prénom")
+        // Extraction Nom/Prénom
         $parts = explode(' ', $displayName, 2);
         $nom = $parts[0] ?? 'Inconnu';
         $prenom = $parts[1] ?? '';
 
-        // Génération d'initiales
+        // Génération initiales
         $initiales = strtoupper(substr($nom, 0, 1) . substr($prenom, 0, 1));
         if (empty($initiales)) {
             $initiales = strtoupper(substr($ldapUser->getFirstAttribute('samaccountname'), 0, 2));
         }
 
-        $this->info("Synchronisation de l'agent : $displayName ($guid)");
+        $this->info("-> Synchronisation réussie : $displayName");
 
         Agent::updateOrCreate(
             ['guid' => $guid],
@@ -96,6 +102,7 @@ class LdapSyncAgents extends Command
                 'email' => $email,
                 'initiales' => substr($initiales, 0, 10),
                 'statut' => 'actif',
+                'guid' => $guid,
             ]
         );
     }

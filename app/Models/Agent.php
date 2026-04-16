@@ -12,7 +12,8 @@ class Agent extends Model
         'initiales',
         'email',
         'statut',
-        'user_id'
+        'user_id',
+        'guid',
     ];
 
     /**
