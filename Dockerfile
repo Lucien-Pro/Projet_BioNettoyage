@@ -6,8 +6,8 @@ RUN apt-get update && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install pdo pdo_mysql ldap
 
-# Configuration spécifique LDAP pour autoriser le SSL sans vérification stricte du certificat (équivalent au fix sur Windows)
-RUN echo "TLS_REQCERT never" >> /etc/ldap/ldap.conf
+# Configuration spécifique LDAP pour autoriser le SSL sans vérification stricte du certificat
+RUN mkdir -p /etc/ldap && echo "TLS_REQCERT never" >> /etc/ldap/ldap.conf
 
 # Activation de mod_rewrite pour Laravel
 RUN a2enmod rewrite
