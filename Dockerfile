@@ -1,7 +1,13 @@
 FROM php:8.2-apache
 
-# Installation des extensions PHP nécessaires
-RUN docker-php-ext-install pdo pdo_mysql
+# Installation des extensions PHP nécessaires et dépendances LDAP
+RUN apt-get update && \
+    apt-get install -y libldap2-dev && \
+    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+    docker-php-ext-install pdo pdo_mysql ldap
+
+# Configuration spécifique LDAP pour autoriser le SSL sans vérification stricte du certificat (équivalent au fix sur Windows)
+RUN echo "TLS_REQCERT never" >> /etc/ldap/ldap.conf
 
 # Activation de mod_rewrite pour Laravel
 RUN a2enmod rewrite

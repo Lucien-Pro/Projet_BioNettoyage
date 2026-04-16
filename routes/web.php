@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('agents', AgentController::class);
+    Route::get('agents', [AgentController::class, 'index'])->name('agents.index');
     
     // Planning Hebdomadaire
     Route::get('/planning', [PlanningController::class, 'index'])->name('planning.index');
