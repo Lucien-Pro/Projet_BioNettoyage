@@ -53,6 +53,11 @@ Route::middleware('auth')->group(function () {
 
         return redirect()->route('dashboard')->with('success', 'Mot de passe mis à jour avec succès.');
     })->name('password.force-change.update');
+
+    // Gestion des rapports de nettoyage
+    Route::get('/cleaning-reports', [App\Http\Controllers\CleaningReportController::class, 'index'])->name('cleaning.index');
+    Route::get('/cleaning-reports/create/{type}', [App\Http\Controllers\CleaningReportController::class, 'create'])->name('cleaning.create');
+    Route::post('/cleaning-reports', [App\Http\Controllers\CleaningReportController::class, 'store'])->name('cleaning.store');
 });
 
 require __DIR__.'/auth.php';

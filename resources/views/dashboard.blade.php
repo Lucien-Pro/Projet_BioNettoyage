@@ -49,15 +49,24 @@
                 <!-- Locaux List -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold italic text-gray-800">
-                                📅 À faire aujourd'hui ({{ now()->translatedFormat('l d F') }})
-                            </h3>
-                            <div class="relative">
-                                <input type="text" placeholder="Rechercher..." class="pl-8 pr-4 py-2 border border-gray-100 rounded-xl text-sm focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50/50">
-                                <span class="absolute left-2.5 top-2.5 text-gray-400">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                </span>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold italic text-gray-800">
+                                    📅 À faire aujourd'hui ({{ now()->translatedFormat('l d F') }})
+                                </h3>
+                                <p class="text-xs text-gray-400 mt-1">Consultez votre planning ou déclarez une tâche spécifique.</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <a href="{{ route('cleaning.index') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-xl font-bold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150 shadow-lg shadow-indigo-200">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                                    Faire une tâche +
+                                </a>
+                                <div class="relative hidden md:block">
+                                    <input type="text" placeholder="Rechercher..." class="pl-8 pr-4 py-2 border border-gray-100 rounded-xl text-sm focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50/50">
+                                    <span class="absolute left-2.5 top-2.5 text-gray-400">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
