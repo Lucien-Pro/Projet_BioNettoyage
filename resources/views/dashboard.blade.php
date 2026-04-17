@@ -52,7 +52,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <div>
                                 <h3 class="text-lg font-semibold italic text-gray-800">
-                                    📅 À faire aujourd'hui ({{ now()->translatedFormat('l d F') }})
+                                    📅 À faire aujourd'hui ({{ ucfirst(now()->locale('fr')->isoFormat('dddd D MMMM')) }})
                                 </h3>
                                 <p class="text-xs text-gray-400 mt-1">Consultez votre planning ou déclarez une tâche spécifique.</p>
                             </div>
