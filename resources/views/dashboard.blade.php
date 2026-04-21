@@ -59,7 +59,7 @@
                             <div class="flex items-center gap-3">
                                 <a href="{{ route('cleaning.index') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-xl font-bold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150 shadow-lg shadow-indigo-200">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
-                                    Faire une tâche +
+                                    Faire une tâche
                                 </a>
                                 <div class="relative hidden md:block">
                                     <input type="text" placeholder="Rechercher..." class="pl-8 pr-4 py-2 border border-gray-100 rounded-xl text-sm focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50/50">
