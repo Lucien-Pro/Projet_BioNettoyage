@@ -37,7 +37,7 @@
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Agent</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Initiales</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email (AD)</th>
+
                                     @if(Auth::user()->role === 'super_admin')
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rôle système</th>
                                     @endif
@@ -55,9 +55,7 @@
                                                 {{ $agent->initiales }}
                                             </span>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $agent->email ?? '-' }}
-                                        </td>
+
                                         @if(Auth::user()->role === 'super_admin')
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 uppercase">
@@ -73,7 +71,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="{{ Auth::user()->role === 'super_admin' ? '5' : '4' }}" class="px-6 py-6 text-center text-gray-500">
+                                        <td colspan="{{ Auth::user()->role === 'super_admin' ? '4' : '3' }}" class="px-6 py-6 text-center text-gray-500">
                                             <div class="flex flex-col items-center justify-center">
                                                 <svg class="h-10 w-10 text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
