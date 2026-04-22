@@ -43,8 +43,8 @@
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
                                     <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
                                         <div class="flex items-center gap-4 mb-4 md:mb-0">
-                                            <div class="w-16 h-16 bg-white p-2 rounded-xl shadow-sm border border-gray-100 italic flex items-center justify-center">
-                                                <x-application-logo class="w-12 h-12" />
+                                            <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                                                <x-application-logo class="w-10 h-10" />
                                             </div>
                                             <div>
                                                 <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien des chambres</h4>
@@ -149,8 +149,8 @@
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
                                     <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
                                         <div class="flex items-center gap-4 mb-4 md:mb-0">
-                                            <div class="w-16 h-16 bg-white p-2 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                                <x-application-logo class="w-12 h-12" />
+                                            <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                                                <x-application-logo class="w-10 h-10" />
                                             </div>
                                             <div>
                                                 <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien de la chambre mortuaire</h4>
@@ -205,8 +205,8 @@
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
                                     <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
                                         <div class="flex items-center gap-4 mb-4 md:mb-0">
-                                            <div class="w-16 h-16 bg-white p-2 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                                <x-application-logo class="w-12 h-12" />
+                                            <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                                                <x-application-logo class="w-10 h-10" />
                                             </div>
                                             <div>
                                                 <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Enregistrement de l'entretien des offices</h4>
@@ -327,8 +327,8 @@
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
                                     <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
                                         <div class="flex items-center gap-4 mb-4 md:mb-0">
-                                            <div class="w-16 h-16 bg-white p-2 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                                <x-application-logo class="w-12 h-12" />
+                                            <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                                                <x-application-logo class="w-10 h-10" />
                                             </div>
                                             <div>
                                                 <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight">Suivi plan de nettoyage - désinfection quotidien<br><span class="text-indigo-600">AUTO LAVEUSE</span></h4>
