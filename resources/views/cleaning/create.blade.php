@@ -82,30 +82,48 @@
                                                         <td class="px-3 py-3 text-center text-sm font-bold {{ $i == $currentDay ? 'text-indigo-700' : 'text-gray-400' }}">
                                                             {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}
                                                         </td>
-                                                        <td class="px-2 py-3 text-center">
-                                                            <div class="relative inline-block w-16">
-                                                                <select name="meublants_{{ $i }}" class="appearance-none w-full bg-blue-50 border-none text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full text-center focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                                                                    <option value="">--</option>
-                                                                    <option value="T" title="Table">T</option>
-                                                                    <option value="C" title="Chaises">C</option>
-                                                                    <option value="Ar" title="Armoires">Ar</option>
-                                                                    <option value="E" title="Evier">E</option>
-                                                                    <option value="Pt" title="Plan travail">Pt</option>
-                                                                    <option value="Tous">Tous</option>
-                                                                </select>
+                                                        <td class="px-1 py-3 text-center">
+                                                            <div x-data="{ 
+                                                                items: [],
+                                                                toggle(val) {
+                                                                    if (this.items.includes(val)) {
+                                                                        this.items = this.items.filter(i => i !== val);
+                                                                    } else {
+                                                                        this.items.push(val);
+                                                                    }
+                                                                }
+                                                            }" class="flex flex-wrap justify-center gap-1 min-w-[120px]">
+                                                                <template x-for="val in ['T', 'C', 'Ar', 'E', 'Pt']">
+                                                                    <button type="button" 
+                                                                        @click="toggle(val)"
+                                                                        :class="items.includes(val) ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'"
+                                                                        class="w-6 h-6 flex items-center justify-center rounded-md text-[9px] font-bold transition-all duration-200"
+                                                                        x-text="val">
+                                                                    </button>
+                                                                </template>
+                                                                <input type="hidden" :name="'meublants_{{ $i }}[]'" :value="items.join(',')">
                                                             </div>
                                                         </td>
-                                                        <td class="px-2 py-3 text-center">
-                                                            <div class="relative inline-block w-16">
-                                                                <select name="materiel_{{ $i }}" class="appearance-none w-full bg-emerald-50 border-none text-emerald-700 text-[10px] font-bold px-2 py-1 rounded-full text-center focus:ring-2 focus:ring-emerald-500 cursor-pointer">
-                                                                    <option value="">--</option>
-                                                                    <option value="P" title="Poubelles">P</option>
-                                                                    <option value="Lv" title="Lave vaisselle">Lv</option>
-                                                                    <option value="Mo" title="Micro-ondes">Mo</option>
-                                                                    <option value="C" title="Cafetière">C</option>
-                                                                    <option value="CI" title="Chauffe lait">CI</option>
-                                                                    <option value="Tous">Tous</option>
-                                                                </select>
+                                                        <td class="px-1 py-3 text-center">
+                                                            <div x-data="{ 
+                                                                items: [],
+                                                                toggle(val) {
+                                                                    if (this.items.includes(val)) {
+                                                                        this.items = this.items.filter(i => i !== val);
+                                                                    } else {
+                                                                        this.items.push(val);
+                                                                    }
+                                                                }
+                                                            }" class="flex flex-wrap justify-center gap-1 min-w-[120px]">
+                                                                <template x-for="val in ['P', 'Lv', 'Mo', 'C', 'CI']">
+                                                                    <button type="button" 
+                                                                        @click="toggle(val)"
+                                                                        :class="items.includes(val) ? 'bg-emerald-600 text-white shadow-md' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'"
+                                                                        class="w-6 h-6 flex items-center justify-center rounded-md text-[9px] font-bold transition-all duration-200"
+                                                                        x-text="val">
+                                                                    </button>
+                                                                </template>
+                                                                <input type="hidden" :name="'materiel_{{ $i }}[]'" :value="items.join(',')">
                                                             </div>
                                                         </td>
                                                         @php $cols = ['chariot', 'refrigerateur', 'sols']; @endphp
