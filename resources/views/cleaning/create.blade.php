@@ -41,10 +41,15 @@
                             @if($type === 'rooms')
                                 <!-- Formulaire HE022 - Entretien des chambres -->
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
-                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6">
-                                        <div class="mb-4 md:mb-0">
-                                            <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien des chambres</h4>
-                                            <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE022 | Version: 3 | Page 2 sur 2</p>
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
+                                        <div class="flex items-center gap-4 mb-4 md:mb-0">
+                                            <div class="w-16 h-16 bg-white p-2 rounded-xl shadow-sm border border-gray-100 italic flex items-center justify-center">
+                                                <x-application-logo class="w-12 h-12" />
+                                            </div>
+                                            <div>
+                                                <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien des chambres</h4>
+                                                <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE022 | Version: 3 | Page 2 sur 2</p>
+                                            </div>
                                         </div>
                                         <div class="text-[10px] text-gray-400 text-right space-y-1">
                                             <p>Nature: Enregistrement | Mise à jour le : 01/02/2015</p>
@@ -142,10 +147,15 @@
                             @elseif($type === 'mortuary')
                                 <!-- Formulaire HE900 - Chambre mortuaire -->
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
-                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6">
-                                        <div class="mb-4 md:mb-0">
-                                            <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien de la chambre mortuaire</h4>
-                                            <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE900 | Version: 1 | Page 1 sur 2</p>
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
+                                        <div class="flex items-center gap-4 mb-4 md:mb-0">
+                                            <div class="w-16 h-16 bg-white p-2 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                                                <x-application-logo class="w-12 h-12" />
+                                            </div>
+                                            <div>
+                                                <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien de la chambre mortuaire</h4>
+                                                <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE900 | Version: 1 | Page 1 sur 2</p>
+                                            </div>
                                         </div>
                                         <div class="text-[10px] text-gray-400 text-right space-y-1">
                                             <p>Nature: Enregistrement | Archivage: 10 ans</p>
@@ -193,10 +203,15 @@
                             @elseif($type === 'offices')
                                 <!-- Formulaire HE038 - Entretien des offices -->
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
-                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6">
-                                        <div class="mb-4 md:mb-0">
-                                            <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Enregistrement de l'entretien des offices</h4>
-                                            <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE038 | Version: 2 | Page 1 sur 1</p>
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
+                                        <div class="flex items-center gap-4 mb-4 md:mb-0">
+                                            <div class="w-16 h-16 bg-white p-2 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                                                <x-application-logo class="w-12 h-12" />
+                                            </div>
+                                            <div>
+                                                <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Enregistrement de l'entretien des offices</h4>
+                                                <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE038 | Version: 2 | Page 1 sur 1</p>
+                                            </div>
                                         </div>
                                         <div class="text-[10px] text-gray-400 text-right space-y-1">
                                             <p>Nature: Enregistrement | Archivage: 10 ans</p>
@@ -310,10 +325,15 @@
                             @elseif($type === 'autolaveuse')
                                 <!-- Formulaire HE024 - Autolaveuse -->
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
-                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6">
-                                        <div class="mb-4 md:mb-0">
-                                            <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight">Suivi plan de nettoyage - désinfection quotidien<br><span class="text-indigo-600">AUTO LAVEUSE</span></h4>
-                                            <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE024 | Version: 1 | Page 1 sur 1</p>
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
+                                        <div class="flex items-center gap-4 mb-4 md:mb-0">
+                                            <div class="w-16 h-16 bg-white p-2 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                                                <x-application-logo class="w-12 h-12" />
+                                            </div>
+                                            <div>
+                                                <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight">Suivi plan de nettoyage - désinfection quotidien<br><span class="text-indigo-600">AUTO LAVEUSE</span></h4>
+                                                <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE024 | Version: 1 | Page 1 sur 1</p>
+                                            </div>
                                         </div>
                                         <div class="text-[10px] text-gray-400 text-right space-y-1">
                                             <p>Nature: Enregistrement</p>
