@@ -38,7 +38,108 @@
                                 </div>
                             </div>
 
-                            @if($type === 'mortuary')
+                            @if($type === 'rooms')
+                                <!-- Formulaire HE022 - Entretien des chambres -->
+                                <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6">
+                                        <div class="mb-4 md:mb-0">
+                                            <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien des chambres</h4>
+                                            <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE022 | Version: 3 | Page 2 sur 2</p>
+                                        </div>
+                                        <div class="text-[10px] text-gray-400 text-right space-y-1">
+                                            <p>Nature: Enregistrement | Mise à jour le : 01/02/2015</p>
+                                            <p>Saisie hebdomadaire | Diffusion interne</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm text-center">
+                                            <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Semaine n°</span>
+                                            <p class="font-bold text-indigo-600 text-xl">{{ $currentWeek }}</p>
+                                        </div>
+                                        <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                                            <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Unité (Secteur)</span>
+                                            <input type="text" name="unite" placeholder="Saisir l'unité..." class="w-full border-none p-0 focus:ring-0 font-bold text-gray-700 text-sm">
+                                        </div>
+                                        <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                                            <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Chambre n°</span>
+                                            <input type="text" name="chambre" placeholder="Ex: 204..." class="w-full border-none p-0 focus:ring-0 font-bold text-gray-700 text-sm">
+                                        </div>
+                                    </div>
+
+                                    <!-- Légende Codes -->
+                                    <div class="flex flex-wrap gap-4 mb-6 bg-white p-4 rounded-xl border border-gray-100 shadow-sm text-[10px]">
+                                        <div class="flex items-center"><span class="w-4 h-4 bg-blue-600 text-white flex items-center justify-center rounded mr-2 font-bold">M</span> Mobilier, meublants</div>
+                                        <div class="flex items-center"><span class="w-4 h-4 bg-emerald-600 text-white flex items-center justify-center rounded mr-2 font-bold">S</span> Sanitaires, lavabo, WC</div>
+                                        <div class="flex items-center"><span class="w-4 h-4 bg-amber-600 text-white flex items-center justify-center rounded mr-2 font-bold">G</span> Nettoyage avec la gaze</div>
+                                        <div class="flex items-center"><span class="w-4 h-4 bg-rose-600 text-white flex items-center justify-center rounded mr-2 font-bold">F</span> Nettoyage avec la frange</div>
+                                    </div>
+
+                                    <div class="overflow-x-auto rounded-xl border border-gray-300 bg-white">
+                                        <table class="min-w-full divide-y divide-gray-300">
+                                            <thead class="bg-gray-100">
+                                                <tr>
+                                                    <th class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider">Jour de la semaine</th>
+                                                    <th class="px-6 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider">Entretien réalisé (MSGF)</th>
+                                                    <th class="px-6 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider">Visa agent</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-gray-200">
+                                                @php
+                                                    $days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+                                                    $currentDayName = ucfirst(now()->locale('fr')->isoFormat('dddd'));
+                                                @endphp
+                                                @foreach($days as $day)
+                                                    <tr class="{{ $day == $currentDayName ? 'bg-indigo-50 border-x-2 border-indigo-200' : 'hover:bg-gray-50/50' }} transition-colors">
+                                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold {{ $day == $currentDayName ? 'text-indigo-700' : 'text-gray-900' }}">
+                                                            {{ $day }}
+                                                        </td>
+                                                        <td class="px-6 py-4 text-center">
+                                                            <div x-data="{ 
+                                                                items: [],
+                                                                toggle(val) {
+                                                                    if (this.items.includes(val)) {
+                                                                        this.items = this.items.filter(i => i !== val);
+                                                                    } else {
+                                                                        this.items.push(val);
+                                                                    }
+                                                                }
+                                                            }" class="flex justify-center gap-2">
+                                                                <template x-for="val in ['M', 'S', 'G', 'F']">
+                                                                    <button type="button" 
+                                                                        @click="toggle(val)"
+                                                                        :class="{
+                                                                            'bg-blue-600 text-white shadow-md': val === 'M' && items.includes(val),
+                                                                            'bg-emerald-600 text-white shadow-md': val === 'S' && items.includes(val),
+                                                                            'bg-amber-600 text-white shadow-md': val === 'G' && items.includes(val),
+                                                                            'bg-rose-600 text-white shadow-md': val === 'F' && items.includes(val),
+                                                                            'bg-gray-100 text-gray-400 hover:bg-gray-200': !items.includes(val)
+                                                                        }"
+                                                                        class="w-8 h-8 flex items-center justify-center rounded-lg text-xs font-black transition-all duration-200"
+                                                                        x-text="val">
+                                                                    </button>
+                                                                </template>
+                                                                <input type="hidden" :name="'entretien_{{ $day }}[]'" :value="items.join(',')">
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 text-center text-[10px] uppercase font-bold {{ $day == $currentDayName ? 'text-indigo-400' : 'text-gray-200' }}">
+                                                            @if($day == $currentDayName)
+                                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800">Visa OK</span>
+                                                            @else
+                                                                -
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <div class="mt-4 p-3 bg-white rounded-xl border border-gray-100 text-[10px] text-gray-400 italic">
+                                        "Notez le nettoyage réalisé à gauche (M, S, G, F) après chaque intervention."
+                                    </div>
+                                </div>
+                            @elseif($type === 'mortuary')
                                 <!-- Formulaire HE900 - Chambre mortuaire -->
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
                                     <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6">

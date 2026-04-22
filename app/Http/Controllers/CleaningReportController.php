@@ -52,8 +52,9 @@ class CleaningReportController extends Controller
         $currentMonth = ucfirst(now()->locale('fr')->isoFormat('MMMM'));
         $currentYear = now()->format('Y');
         $currentDay = (int)now()->format('d');
+        $currentWeek = now()->weekOfYear;
 
-        return view('cleaning.create', compact('type', 'title', 'locations', 'currentMonth', 'currentYear', 'currentDay'));
+        return view('cleaning.create', compact('type', 'title', 'locations', 'currentMonth', 'currentYear', 'currentDay', 'currentWeek'));
     }
 
     /**
