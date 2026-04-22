@@ -1,9 +1,14 @@
-<svg {{ $attributes->merge(['class' => 'w-16 h-16']) }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
-    <!-- Goutte d'eau -->
-    <path d="M50,10 C70,10 85,25 85,45 C85,65 50,90 50,90 C50,90 15,65 15,45 C15,25 30,10 50,10 Z"
-          stroke="#00a1e4" stroke-width="3" fill="none"/>
-
-    <!-- Feuille -->
-    <path d="M50,45 C55,35 65,40 60,50 C65,60 55,65 50,55 C45,65 35,60 40,50 C35,40 45,35 50,45 Z"
-          fill="#7cb342"/>
+<svg {{ $attributes->merge(['class' => 'w-16 h-16']) }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <!-- Goutte d'eau (contour bleu) -->
+    <path d="M50,5 C75,5 92,25 92,50 C92,75 50,95 50,95 C50,95 8,75 8,50 C8,25 25,5 50,5 Z" 
+          fill="none" stroke="#2ea3d6" stroke-width="8" stroke-linecap="round"/>
+    
+    <!-- Feuille verte -->
+    <g transform="translate(30, 35) rotate(-10)">
+        <path d="M5,45 C5,45 5,20 25,5 C45,20 45,45 45,45 C45,45 45,65 25,55 C5,65 5,45 5,45 Z" 
+              fill="#4caf50"/>
+        <!-- Nervure blanche -->
+        <path d="M25,55 C25,55 25,35 25,5" 
+              stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </g>
 </svg>
