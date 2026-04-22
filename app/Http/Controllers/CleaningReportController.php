@@ -49,7 +49,7 @@ class CleaningReportController extends Controller
         $locations = $agent ? $agent->plannings()->with('location')->get()->pluck('location') : collect();
 
         // Informations de date pour le formulaire HE024
-        $currentMonth = now()->translatedFormat('F');
+        $currentMonth = ucfirst(now()->locale('fr')->isoFormat('MMMM'));
         $currentYear = now()->format('Y');
         $currentDay = (int)now()->format('d');
 
