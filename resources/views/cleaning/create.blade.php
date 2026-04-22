@@ -38,9 +38,80 @@
                                 </div>
                             </div>
 
-                            <hr class="border-gray-100">
+                            @if($type === 'offices')
+                                <!-- Formulaire HE038 - Entretien des offices -->
+                                <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6">
+                                        <div class="mb-4 md:mb-0">
+                                            <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Enregistrement de l'entretien des offices</h4>
+                                            <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE038 | Version: 2 | Page 1 sur 1</p>
+                                        </div>
+                                        <div class="text-[10px] text-gray-400 text-right space-y-1">
+                                            <p>Nature: Enregistrement | Archivage: 10 ans</p>
+                                            <p>Trame rédigée le: 29/11/2016 | CDS / Cadre de santé</p>
+                                            <p>Noms: Mme CILIBERTO / Mme LEROY</p>
+                                        </div>
+                                    </div>
 
-                            @if($type === 'autolaveuse')
+                                    <div class="mb-6 flex flex-wrap gap-4">
+                                        <div class="flex-1 min-w-[150px] bg-white p-3 rounded-xl border border-gray-200 shadow-sm text-center">
+                                            <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Mois et Année</span>
+                                            <p class="font-bold text-indigo-600 text-sm capitalize">{{ $currentMonth }} {{ $currentYear }}</p>
+                                        </div>
+                                        <div class="flex-1 min-w-[200px] bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                                            <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Unité (Secteur)</span>
+                                            <input type="text" name="unite" placeholder="Saisir l'unité..." class="w-full border-none p-0 focus:ring-0 font-bold text-gray-700 text-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="overflow-x-auto rounded-xl border border-gray-300 bg-white max-h-[600px] overflow-y-auto">
+                                        <table class="min-w-full divide-y divide-gray-300">
+                                            <thead class="bg-gray-100 sticky top-0 z-10">
+                                                <tr>
+                                                    <th class="px-3 py-3 text-left text-[10px] font-bold text-gray-500 uppercase">Jour</th>
+                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase">Meublants<br><span class="text-[8px] font-normal lowercase">(T, C, Ar, E, Pt)</span></th>
+                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase">Matériel<br><span class="text-[8px] font-normal lowercase">(P, Lv, Mo, C, Cl)</span></th>
+                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase">Chariot Petit Déj.</th>
+                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase">Réfrigérateur</th>
+                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase">Sols</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-gray-200">
+                                                @for($i = 1; $i <= 31; $i++)
+                                                    <tr class="{{ $i == $currentDay ? 'bg-indigo-50 border-y-2 border-indigo-200' : 'hover:bg-gray-50/50' }} transition-colors">
+                                                        <td class="px-3 py-3 text-center text-sm font-bold {{ $i == $currentDay ? 'text-indigo-700' : 'text-gray-400' }}">
+                                                            {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}
+                                                        </td>
+                                                        @php $cols = ['meublants', 'materiel', 'chariot', 'refrigerateur', 'sols']; @endphp
+                                                        @foreach($cols as $col)
+                                                            <td class="px-3 py-3 text-center items-center">
+                                                                <input type="checkbox" name="{{ $col }}_{{ $i }}" 
+                                                                    {{ $i == $currentDay ? 'checked' : '' }} 
+                                                                    class="h-5 w-5 text-indigo-600 border-gray-300 rounded-md focus:ring-indigo-500 transition-transform hover:scale-110">
+                                                                <span class="block text-[8px] mt-1 text-gray-400 uppercase font-bold {{ $i == $currentDay ? 'text-indigo-400' : 'hidden' }}">Visa OK</span>
+                                                            </td>
+                                                        @endforeach
+                                                    </tr>
+                                                @endfor
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-[10px] text-gray-500">
+                                        <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 italic space-y-2">
+                                            <p><strong>Meublants :</strong> T=Table, C=chaises, Ar=Armoires de rangement, E=Evier et meuble sous évier, Pt=Plan de travail.</p>
+                                            <p><strong>Matériel :</strong> P=Poubelles, Lv=Lave vaisselle, Mo=Four Micro-ondes, C=Cafetière, CI=Chauffe lait.</p>
+                                        </div>
+                                        <div class="flex gap-4 items-end justify-end">
+                                            <div class="border-t-2 border-gray-200 pt-3 min-w-[120px] text-center">
+                                                <p class="font-bold text-gray-700">Mme DOUEZ</p>
+                                                <p class="text-[9px]">Directrice</p>
+                                                <div class="h-8 italic text-gray-300 flex items-center justify-center">Signé le 08/12/16</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @elseif($type === 'autolaveuse')
                                 <!-- Formulaire HE024 - Autolaveuse -->
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
                                     <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6">
