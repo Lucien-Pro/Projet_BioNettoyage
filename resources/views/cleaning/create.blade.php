@@ -82,7 +82,33 @@
                                                         <td class="px-3 py-3 text-center text-sm font-bold {{ $i == $currentDay ? 'text-indigo-700' : 'text-gray-400' }}">
                                                             {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}
                                                         </td>
-                                                        @php $cols = ['meublants', 'materiel', 'chariot', 'refrigerateur', 'sols']; @endphp
+                                                        <td class="px-2 py-3 text-center">
+                                                            <div class="relative inline-block w-16">
+                                                                <select name="meublants_{{ $i }}" class="appearance-none w-full bg-blue-50 border-none text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full text-center focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                                                                    <option value="">--</option>
+                                                                    <option value="T" title="Table">T</option>
+                                                                    <option value="C" title="Chaises">C</option>
+                                                                    <option value="Ar" title="Armoires">Ar</option>
+                                                                    <option value="E" title="Evier">E</option>
+                                                                    <option value="Pt" title="Plan travail">Pt</option>
+                                                                    <option value="Tous">Tous</option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-2 py-3 text-center">
+                                                            <div class="relative inline-block w-16">
+                                                                <select name="materiel_{{ $i }}" class="appearance-none w-full bg-emerald-50 border-none text-emerald-700 text-[10px] font-bold px-2 py-1 rounded-full text-center focus:ring-2 focus:ring-emerald-500 cursor-pointer">
+                                                                    <option value="">--</option>
+                                                                    <option value="P" title="Poubelles">P</option>
+                                                                    <option value="Lv" title="Lave vaisselle">Lv</option>
+                                                                    <option value="Mo" title="Micro-ondes">Mo</option>
+                                                                    <option value="C" title="Cafetière">C</option>
+                                                                    <option value="CI" title="Chauffe lait">CI</option>
+                                                                    <option value="Tous">Tous</option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        @php $cols = ['chariot', 'refrigerateur', 'sols']; @endphp
                                                         @foreach($cols as $col)
                                                             <td class="px-3 py-3 text-center items-center">
                                                                 <input type="checkbox" name="{{ $col }}_{{ $i }}" 
