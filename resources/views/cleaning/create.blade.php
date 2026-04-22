@@ -40,11 +40,100 @@
 
                             <hr class="border-gray-100">
 
-                            <!-- Section des champs spécifiques (Placeholder) -->
-                            <div class="bg-indigo-50/50 p-8 rounded-2xl border-2 border-dashed border-indigo-100 text-center">
-                                <div class="text-indigo-600 font-bold mb-2">Les champs spécifiques du formulaire "{{ $title }}" arrivent bientôt.</div>
-                                <p class="text-sm text-gray-500 italic">Dès que vous m'aurez transmis les modèles papier ou Excel, je les intégrerai ici avec des cases à cocher, des sélecteurs et des champs de texte.</p>
-                            </div>
+                            @if($type === 'autolaveuse')
+                                <!-- Formulaire HE024 - Autolaveuse -->
+                                <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6">
+                                        <div class="mb-4 md:mb-0">
+                                            <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight">Suivi plan de nettoyage - dÃ©sinfection quotidien<br><span class="text-indigo-600">AUTO LAVEUSE</span></h4>
+                                            <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">NÂ°: HE024 | Version: 1 | Page 1 sur 1</p>
+                                        </div>
+                                        <div class="text-[10px] text-gray-400 text-right space-y-1">
+                                            <p>Nature: Enregistrement</p>
+                                            <p>Archivage: 10 ans</p>
+                                            <p>RÃ©digÃ© le: 09/01/2022 | CDS EOHH</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-6 grid grid-cols-2 gap-4">
+                                        <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                                            <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Mois</span>
+                                            <input type="text" name="mois" value="{{ $currentMonth }}" class="w-full border-none p-0 focus:ring-0 font-bold text-indigo-600">
+                                        </div>
+                                        <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                                            <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">AnnÃ©e</span>
+                                            <input type="text" name="annee" value="{{ $currentYear }}" class="w-full border-none p-0 focus:ring-0 font-bold text-indigo-600">
+                                        </div>
+                                    </div>
+
+                                    <div class="overflow-x-auto rounded-xl border border-gray-300">
+                                        <table class="min-w-full divide-y divide-gray-300">
+                                            <thead class="bg-gray-100">
+                                                <tr>
+                                                    <th class="px-3 py-2 text-left text-[10px] font-bold text-gray-500 uppercase">Surfaces / TÃ¢ches</th>
+                                                    <th class="px-3 py-2 text-center text-[10px] font-bold text-gray-500 uppercase">Qui</th>
+                                                    <th class="px-3 py-2 text-center text-[10px] font-bold text-gray-500 uppercase">FrÃ©q.</th>
+                                                    @for($i = 1; $i <= 31; $i++)
+                                                        <th class="px-1 py-2 text-center text-[9px] font-bold {{ $i == $currentDay ? 'bg-indigo-600 text-white' : 'text-gray-400' }}">{{ $i }}</th>
+                                                    @endfor
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                @php
+                                                    $tasks = [
+                                                        'raclette' => ['label' => 'Nettoyer la raclette', 'freq' => 'Util.'],
+                                                        'vidange' => ['label' => 'Vidanger la machine (siphon)', 'freq' => '1/j'],
+                                                        'reservoir' => ['label' => 'Rincer le rÃ©servoir', 'freq' => '1/j'],
+                                                        'exterieur' => ['label' => 'Nettoyer l\'extÃ©rieur', 'freq' => '1/j'],
+                                                        'gants' => ['label' => 'Nettoyer les gants', 'freq' => 'Util.'],
+                                                    ];
+                                                @endphp
+
+                                                @foreach($tasks as $key => $task)
+                                                    <tr>
+                                                        <td class="px-3 py-2 text-[11px] font-medium text-gray-700">{{ $task['label'] }}</td>
+                                                        <td class="px-2 py-1">
+                                                            <select name="qui_{{ $key }}" class="text-[10px] border-gray-200 rounded-lg p-1 focus:ring-indigo-500">
+                                                                <option value="ASH">ASH</option>
+                                                                <option value="AE">AE</option>
+                                                            </select>
+                                                        </td>
+                                                        <td class="px-2 py-2 text-[9px] text-gray-400 text-center uppercase">{{ $task['freq'] }}</td>
+                                                        @for($i = 1; $i <= 31; $i++)
+                                                            <td class="px-0 py-0 text-center {{ $i == $currentDay ? 'bg-indigo-50' : '' }}">
+                                                                <input type="checkbox" name="{{ $key }}_{{ $i }}" {{ $i == $currentDay ? 'checked' : '' }} class="h-3 w-3 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                                                            </td>
+                                                        @endfor
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="mt-6 flex flex-col md:flex-row justify-between items-start gap-4 text-[10px] text-gray-500">
+                                        <div class="max-w-md">
+                                            <p><strong>Tenue :</strong> Gants de mÃ©nage, blouse, chaussures et protections adaptÃ©es.</p>
+                                            <p class="mt-1"><strong>LÃ©gende :</strong> ASH (Hospitalier), AE (Entretien), ST (Technique), AS (Aide Soignante)</p>
+                                        </div>
+                                        <div class="flex gap-8">
+                                            <div class="border-t border-gray-300 pt-2 min-w-[120px]">
+                                                <p class="font-bold">Mme le Dr HUBERT</p>
+                                                <p>PrÃ©sidente CLIN</p>
+                                            </div>
+                                            <div class="border-t border-gray-300 pt-2 min-w-[120px]">
+                                                <p class="font-bold">Mme DOUEZ</p>
+                                                <p>Directrice</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <!-- Section des champs spÃ©cifiques (Placeholder) -->
+                                <div class="bg-indigo-50/50 p-8 rounded-2xl border-2 border-dashed border-indigo-100 text-center">
+                                    <div class="text-indigo-600 font-bold mb-2">Les champs spÃ©cifiques du formulaire "{{ $title }}" arrivent bientÃ´t.</div>
+                                    <p class="text-sm text-gray-500 italic">DÃ¨s que vous m'aurez transmis les modÃ¨les papier ou Excel, je les intÃ©grerai ici avec des cases Ã  cocher, des sÃ©lecteurs et des champs de texte.</p>
+                                </div>
+                            @endif
 
                             <!-- Commentaire général -->
                             <div>

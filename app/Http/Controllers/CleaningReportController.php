@@ -44,11 +44,16 @@ class CleaningReportController extends Controller
 
         $title = $titles[$type];
         
-        // On récupère les lieux pour le formulaire (peut être filtré par le planning de l'agent)
+        // On rÃ©cupÃ¨re les lieux pour le formulaire (peut Ãªtre filtrÃ© par le planning de l'agent)
         $agent = Auth::user()->agent;
         $locations = $agent ? $agent->plannings()->with('location')->get()->pluck('location') : collect();
 
-        return view('cleaning.create', compact('type', 'title', 'locations'));
+        // Informations de date pour le formulaire HE024
+        $currentMonth = now()->translatedFormat('F');
+        $currentYear = now()->format('Y');
+        $currentDay = (int)now()->format('d');
+
+        return view('cleaning.create', compact('type', 'title', 'locations', 'currentMonth', 'currentYear', 'currentDay'));
     }
 
     /**
