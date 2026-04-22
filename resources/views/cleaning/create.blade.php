@@ -38,7 +38,58 @@
                                 </div>
                             </div>
 
-                            @if($type === 'offices')
+                            @if($type === 'mortuary')
+                                <!-- Formulaire HE900 - Chambre mortuaire -->
+                                <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6">
+                                        <div class="mb-4 md:mb-0">
+                                            <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien de la chambre mortuaire</h4>
+                                            <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE900 | Version: 1 | Page 1 sur 2</p>
+                                        </div>
+                                        <div class="text-[10px] text-gray-400 text-right space-y-1">
+                                            <p>Nature: Enregistrement | Archivage: 10 ans</p>
+                                            <p>Date de rédaction: 23/03/2018 | Infirmière hygiéniste</p>
+                                            <p>Noms: Mme BEN GHERBAL</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="max-w-2xl mx-auto py-8">
+                                        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl text-center space-y-6">
+                                            <div class="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            </div>
+                                            
+                                            <div>
+                                                <h3 class="text-2xl font-black text-gray-900">Validation de l'entretien</h3>
+                                                <p class="text-gray-500 mt-2">En enregistrant ce formulaire, vous attestez avoir effectué l'entretien complet de la chambre mortuaire ce jour.</p>
+                                            </div>
+
+                                            <div class="grid grid-cols-1 gap-4 text-left">
+                                                <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                                                    <span class="block text-[10px] font-bold text-gray-400 uppercase">Agent d'entretien intervenant</span>
+                                                    <p class="text-lg font-bold text-gray-800">{{ Auth::user()->name }}</p>
+                                                </div>
+                                                <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                                                    <span class="block text-[10px] font-bold text-gray-400 uppercase">Horodatage de l'intervention</span>
+                                                    <p class="text-lg font-bold text-gray-800">{{ ucfirst(now()->locale('fr')->isoFormat('dddd D MMMM YYYY - HH:mm')) }}</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="pt-4 italic text-[10px] text-gray-400">
+                                                "Conformément au protocole HE900, l'entretien doit inclure la désinfection des surfaces et des sols."
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-8 flex justify-end items-end gap-4 text-[10px] text-gray-500">
+                                        <div class="border-t-2 border-gray-200 pt-3 min-w-[140px] text-center">
+                                            <p class="font-bold text-gray-700">Mme DOUEZ</p>
+                                            <p class="text-[9px]">Directrice</p>
+                                            <div class="h-8 italic text-gray-300 flex items-center justify-center">Visa Direction</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @elseif($type === 'offices')
                                 <!-- Formulaire HE038 - Entretien des offices -->
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
                                     <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6">
