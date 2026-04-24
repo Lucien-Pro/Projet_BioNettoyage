@@ -24,20 +24,26 @@
                             <!-- Information de base -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="relative">
-                                    <label for="location_id" class="block text-sm font-bold text-gray-700 mb-1">Local / Zone</label>
-                                    <div class="flex gap-2">
-                                        <select name="location_id" id="location_id" class="flex-1 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition-all bg-gray-50 pointer-events-none" readonly>
-                                            <option value="">-- Attente scan de début --</option>
-                                            @foreach($locations as $loc)
-                                                <option value="{{ $loc->id }}">{{ $loc->name }}</option>
-                                            @endforeach
-                                        </select>
+                                    <input type="hidden" name="location_id" id="location_id">
+                                    <div id="location-placeholder" class="py-4 px-6 bg-indigo-50/50 rounded-2xl border-2 border-dashed border-indigo-100 text-center">
+                                        <div class="flex flex-col items-center gap-2">
+                                            <svg class="w-8 h-8 text-indigo-300 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                                            <p class="text-sm font-bold text-indigo-400">En attente du scan de la zone...</p>
+                                        </div>
                                     </div>
-                                    <div id="location-display" class="mt-2 hidden">
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800 border border-emerald-200">
-                                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                                            Zone identifiée : <strong id="location-name" class="ml-1"></strong>
-                                        </span>
+                                    <div id="location-display" class="hidden">
+                                        <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm flex items-center gap-4">
+                                            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Zone Identifiée</p>
+                                                <p id="location-name" class="text-lg font-black text-gray-800"></p>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-bold rounded-md uppercase">Vérifié par QR</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div>
@@ -510,12 +516,20 @@
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script>
         let html5QrCode = null;
-        let scanStep = 'START'; // 'START' ou 'END'
+        let scanStep = 'START';
         let initialLocationId = null;
+
+        // On convertit la liste PHP en objet JS pour le mapping ID -> Nom
+        const locationsMap = {
+            @foreach($locations as $loc)
+                "{{ $loc->id }}": "{{ addslashes($loc->name) }}",
+            @endforeach
+        };
 
         const scannerModal = document.getElementById('scanner-modal');
         const modalTitle = document.getElementById('modal-title');
-        const locationSelect = document.getElementById('location_id');
+        const locationInput = document.getElementById('location_id');
+        const locationPlaceholder = document.getElementById('location-placeholder');
         const locationDisplay = document.getElementById('location-display');
         const locationName = document.getElementById('location-name');
         const submitTrigger = document.getElementById('submit-trigger');
@@ -523,11 +537,7 @@
 
         function startScanner(step = 'START') {
             scanStep = step;
-            if (step === 'END') {
-                modalTitle.innerText = "Validation de Fin";
-            } else {
-                modalTitle.innerText = "Identification de la Zone";
-            }
+            modalTitle.innerText = (step === 'END') ? "Validation de Fin" : "Identification de la Zone";
 
             scannerModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
@@ -535,12 +545,8 @@
             html5QrCode = new Html5Qrcode("qr-reader");
             const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
-            html5QrCode.start(
-                { facingMode: "environment" }, 
-                config,
-                onScanSuccess,
-                onScanFailure
-            ).catch(err => {
+            html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess, onScanFailure)
+            .catch(err => {
                 console.error("Erreur caméra:", err);
                 alert("Impossible d'accéder à la caméra. Vérifiez les permissions.");
                 stopScanner();
@@ -560,13 +566,8 @@
             }
         }
 
-        function onScanSuccess(decodedText, decodedResult) {
-            console.log(`Code scanné (${scanStep}) : ${decodedText}`);
-            
-            let locationId = decodedText;
-            if (decodedText.startsWith('BNL_')) {
-                locationId = decodedText.replace('BNL_', '');
-            }
+        function onScanSuccess(decodedText) {
+            let locationId = decodedText.startsWith('BNL_') ? decodedText.replace('BNL_', '') : decodedText;
 
             if (scanStep === 'START') {
                 handleStartScan(locationId);
@@ -576,23 +577,14 @@
         }
 
         function handleStartScan(locationId) {
-            let found = false;
-            for (let i = 0; i < locationSelect.options.length; i++) {
-                if (locationSelect.options[i].value == locationId) {
-                    locationSelect.selectedIndex = i;
-                    locationName.innerText = locationSelect.options[i].text;
-                    initialLocationId = locationId;
-                    found = true;
-                    break;
-                }
-            }
-
-            if (found) {
+            if (locationsMap[locationId]) {
+                locationInput.value = locationId;
+                locationName.innerText = locationsMap[locationId];
+                initialLocationId = locationId;
+                
+                locationPlaceholder.classList.add('hidden');
                 locationDisplay.classList.remove('hidden');
                 stopScanner();
-                
-                // Effet visuel
-                locationSelect.classList.add('ring-2', 'ring-emerald-500', 'bg-emerald-50');
             } else {
                 alert("Ce QR code ne correspond à aucune zone enregistrée.");
             }
@@ -600,34 +592,26 @@
 
         function handleEndScan(locationId) {
             if (locationId == initialLocationId) {
-                // Succès final !
                 stopScanner();
-                
-                // Feedback visuel avant envoi
                 submitTrigger.innerHTML = '<svg class="w-5 h-5 mr-2 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Enregistrement...';
                 submitTrigger.classList.replace('bg-indigo-600', 'bg-emerald-600');
-                
-                setTimeout(() => {
-                    realSubmit.click();
-                }, 800);
+                setTimeout(() => realSubmit.click(), 800);
             } else {
-                alert("Erreur : Le QR code ne correspond pas à la zone de début ! Vous devez scanner le même local pour valider.");
+                alert("Erreur : Le QR code ne correspond pas à la zone de début !");
             }
         }
 
         function onScanFailure(error) { }
 
-        // Trigger de fin
         submitTrigger.addEventListener('click', () => {
             if (!initialLocationId) {
-                alert("Vous devez d'abord identifier la zone au début du formulaire.");
+                alert("Veuillez d'abord scanner la zone.");
                 startScanner('START');
                 return;
             }
             startScanner('END');
         });
 
-        // Démarrage automatique
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => startScanner('START'), 500);
         });
