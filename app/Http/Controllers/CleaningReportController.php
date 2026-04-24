@@ -44,9 +44,8 @@ class CleaningReportController extends Controller
 
         $title = $titles[$type];
         
-        // On rÃ©cupÃ¨re les lieux pour le formulaire (peut Ãªtre filtrÃ© par le planning de l'agent)
-        $agent = Auth::user()->agent;
-        $locations = $agent ? $agent->plannings()->with('location')->get()->pluck('location') : collect();
+        // On récupère TOUS les lieux pour permettre le scan de n'importe quelle zone
+        $locations = Location::orderBy('name')->get();
 
         // Informations de date pour le formulaire HE024
         $currentMonth = ucfirst(now()->locale('fr')->isoFormat('MMMM'));
