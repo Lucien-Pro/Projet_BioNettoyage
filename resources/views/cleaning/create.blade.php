@@ -26,20 +26,17 @@
                                 <div class="relative">
                                     <label for="location_id" class="block text-sm font-bold text-gray-700 mb-1">Local / Zone</label>
                                     <div class="flex gap-2">
-                                        <select name="location_id" id="location_id" class="flex-1 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition-all bg-white">
-                                            <option value="">-- Scanner un QR Code --</option>
+                                        <select name="location_id" id="location_id" class="flex-1 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition-all bg-gray-50 pointer-events-none" readonly>
+                                            <option value="">-- Attente scan de début --</option>
                                             @foreach($locations as $loc)
                                                 <option value="{{ $loc->id }}">{{ $loc->name }}</option>
                                             @endforeach
                                         </select>
-                                        <button type="button" onclick="startScanner()" class="p-2 bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-100 transition-colors border border-indigo-100 shadow-sm" title="Re-scanner">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
-                                        </button>
                                     </div>
                                     <div id="location-display" class="mt-2 hidden">
                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800 border border-emerald-200">
                                             <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                                            Identifié : <strong id="location-name" class="ml-1"></strong>
+                                            Zone identifiée : <strong id="location-name" class="ml-1"></strong>
                                         </span>
                                     </div>
                                 </div>
@@ -458,10 +455,11 @@
                                 <a href="{{ route('cleaning.index') }}" class="px-6 py-2 text-sm font-bold text-gray-400 hover:text-gray-600 transition-colors mr-auto">
                                     Annuler
                                 </a>
-                                <button type="submit" class="px-10 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-700 hover:shadow-indigo-200 transform hover:-translate-y-1 active:translate-y-0 transition-all flex items-center">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                    Enregistrer la tâche
+                                <button type="button" id="submit-trigger" class="px-10 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-700 hover:shadow-indigo-200 transform hover:-translate-y-1 active:translate-y-0 transition-all flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                                    Scanner pour enregistrer
                                 </button>
+                                <button type="submit" id="real-submit" class="hidden"></button>
                             </div>
                         </div>
                     </form>
@@ -512,12 +510,25 @@
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script>
         let html5QrCode = null;
+        let scanStep = 'START'; // 'START' ou 'END'
+        let initialLocationId = null;
+
         const scannerModal = document.getElementById('scanner-modal');
+        const modalTitle = document.getElementById('modal-title');
         const locationSelect = document.getElementById('location_id');
         const locationDisplay = document.getElementById('location-display');
         const locationName = document.getElementById('location-name');
+        const submitTrigger = document.getElementById('submit-trigger');
+        const realSubmit = document.getElementById('real-submit');
 
-        function startScanner() {
+        function startScanner(step = 'START') {
+            scanStep = step;
+            if (step === 'END') {
+                modalTitle.innerText = "Validation de Fin";
+            } else {
+                modalTitle.innerText = "Identification de la Zone";
+            }
+
             scannerModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
 
@@ -550,20 +561,27 @@
         }
 
         function onScanSuccess(decodedText, decodedResult) {
-            console.log(`Code scanné : ${decodedText}`);
+            console.log(`Code scanné (${scanStep}) : ${decodedText}`);
             
-            // Format attendu : BNL_ID ou juste ID
             let locationId = decodedText;
             if (decodedText.startsWith('BNL_')) {
                 locationId = decodedText.replace('BNL_', '');
             }
 
-            // Chercher l'ID dans le select
+            if (scanStep === 'START') {
+                handleStartScan(locationId);
+            } else {
+                handleEndScan(locationId);
+            }
+        }
+
+        function handleStartScan(locationId) {
             let found = false;
             for (let i = 0; i < locationSelect.options.length; i++) {
                 if (locationSelect.options[i].value == locationId) {
                     locationSelect.selectedIndex = i;
                     locationName.innerText = locationSelect.options[i].text;
+                    initialLocationId = locationId;
                     found = true;
                     break;
                 }
@@ -571,27 +589,47 @@
 
             if (found) {
                 locationDisplay.classList.remove('hidden');
-                // Petit effet de succès sonore ou visuel
                 stopScanner();
                 
-                // Feedback visuel sur le select
-                locationSelect.classList.add('ring-2', 'ring-emerald-500', 'border-emerald-500');
-                setTimeout(() => {
-                    locationSelect.classList.remove('ring-2', 'ring-emerald-500', 'border-emerald-500');
-                }, 2000);
+                // Effet visuel
+                locationSelect.classList.add('ring-2', 'ring-emerald-500', 'bg-emerald-50');
             } else {
-                alert("Ce QR code ne correspond à aucun local enregistré.");
+                alert("Ce QR code ne correspond à aucune zone enregistrée.");
             }
         }
 
-        function onScanFailure(error) {
-            // On ignore les erreurs de lecture (quand il ne voit rien)
+        function handleEndScan(locationId) {
+            if (locationId == initialLocationId) {
+                // Succès final !
+                stopScanner();
+                
+                // Feedback visuel avant envoi
+                submitTrigger.innerHTML = '<svg class="w-5 h-5 mr-2 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Enregistrement...';
+                submitTrigger.classList.replace('bg-indigo-600', 'bg-emerald-600');
+                
+                setTimeout(() => {
+                    realSubmit.click();
+                }, 800);
+            } else {
+                alert("Erreur : Le QR code ne correspond pas à la zone de début ! Vous devez scanner le même local pour valider.");
+            }
         }
 
-        // Démarrage automatique au chargement
-        window.addEventListener('DOMContentLoaded', (event) => {
-            // On laisse un petit délai pour que l'agent voit la page d'abord
-            setTimeout(startScanner, 500);
+        function onScanFailure(error) { }
+
+        // Trigger de fin
+        submitTrigger.addEventListener('click', () => {
+            if (!initialLocationId) {
+                alert("Vous devez d'abord identifier la zone au début du formulaire.");
+                startScanner('START');
+                return;
+            }
+            startScanner('END');
+        });
+
+        // Démarrage automatique
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => startScanner('START'), 500);
         });
     </script>
 
