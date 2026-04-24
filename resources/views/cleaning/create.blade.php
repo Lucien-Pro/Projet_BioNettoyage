@@ -23,14 +23,25 @@
                         <div class="space-y-6">
                             <!-- Information de base -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
+                                <div class="relative">
                                     <label for="location_id" class="block text-sm font-bold text-gray-700 mb-1">Local / Zone</label>
-                                    <select name="location_id" id="location_id" class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition-all">
-                                        <option value="">-- Sélectionner un lieu (optionnel) --</option>
-                                        @foreach($locations as $loc)
-                                            <option value="{{ $loc->id }}">{{ $loc->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="flex gap-2">
+                                        <select name="location_id" id="location_id" class="flex-1 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition-all bg-white">
+                                            <option value="">-- Scanner un QR Code --</option>
+                                            @foreach($locations as $loc)
+                                                <option value="{{ $loc->id }}">{{ $loc->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="button" onclick="startScanner()" class="p-2 bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-100 transition-colors border border-indigo-100 shadow-sm" title="Re-scanner">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                                        </button>
+                                    </div>
+                                    <div id="location-display" class="mt-2 hidden">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                            Identifié : <strong id="location-name" class="ml-1"></strong>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-bold text-gray-700 mb-1">Date & Heure</label>
@@ -458,4 +469,141 @@
             </div>
         </div>
     </div>
+    <!-- Modal du Scanner QR Code -->
+    <div id="scanner-modal" class="fixed inset-0 z-50 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm transition-opacity" aria-hidden="true" onclick="stopScanner()"></div>
+
+            <div class="inline-block align-bottom bg-white rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-white/20">
+                <div class="bg-indigo-600 p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                            </div>
+                            <h3 class="text-xl font-black text-white" id="modal-title">Identification de la Zone</h3>
+                        </div>
+                        <button onclick="stopScanner()" class="text-white/70 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <div id="qr-reader" class="rounded-2xl overflow-hidden border-4 border-gray-100 bg-gray-50 aspect-square flex items-center justify-center relative">
+                        <div class="absolute inset-0 z-10 pointer-events-none border-[30px] border-black/40"></div>
+                        <div class="absolute inset-[30px] z-10 pointer-events-none border-2 border-indigo-500 animate-pulse"></div>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-gray-500 font-medium">Placez le QR code de la zone dans le cadre pour l'identifier automatiquement.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 px-6 py-4 flex flex-col gap-3">
+                    <button type="button" onclick="stopScanner()" class="w-full inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                        Saisie manuelle
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script>
+        let html5QrCode = null;
+        const scannerModal = document.getElementById('scanner-modal');
+        const locationSelect = document.getElementById('location_id');
+        const locationDisplay = document.getElementById('location-display');
+        const locationName = document.getElementById('location-name');
+
+        function startScanner() {
+            scannerModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            html5QrCode = new Html5Qrcode("qr-reader");
+            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+            html5QrCode.start(
+                { facingMode: "environment" }, 
+                config,
+                onScanSuccess,
+                onScanFailure
+            ).catch(err => {
+                console.error("Erreur caméra:", err);
+                alert("Impossible d'accéder à la caméra. Vérifiez les permissions.");
+                stopScanner();
+            });
+        }
+
+        function stopScanner() {
+            if (html5QrCode && html5QrCode.isScanning) {
+                html5QrCode.stop().then(() => {
+                    html5QrCode.clear();
+                    scannerModal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                });
+            } else {
+                scannerModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`Code scanné : ${decodedText}`);
+            
+            // Format attendu : BNL_ID ou juste ID
+            let locationId = decodedText;
+            if (decodedText.startsWith('BNL_')) {
+                locationId = decodedText.replace('BNL_', '');
+            }
+
+            // Chercher l'ID dans le select
+            let found = false;
+            for (let i = 0; i < locationSelect.options.length; i++) {
+                if (locationSelect.options[i].value == locationId) {
+                    locationSelect.selectedIndex = i;
+                    locationName.innerText = locationSelect.options[i].text;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                locationDisplay.classList.remove('hidden');
+                // Petit effet de succès sonore ou visuel
+                stopScanner();
+                
+                // Feedback visuel sur le select
+                locationSelect.classList.add('ring-2', 'ring-emerald-500', 'border-emerald-500');
+                setTimeout(() => {
+                    locationSelect.classList.remove('ring-2', 'ring-emerald-500', 'border-emerald-500');
+                }, 2000);
+            } else {
+                alert("Ce QR code ne correspond à aucun local enregistré.");
+            }
+        }
+
+        function onScanFailure(error) {
+            // On ignore les erreurs de lecture (quand il ne voit rien)
+        }
+
+        // Démarrage automatique au chargement
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // On laisse un petit délai pour que l'agent voit la page d'abord
+            setTimeout(startScanner, 500);
+        });
+    </script>
+
+    <style>
+        #qr-reader video {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 1rem !important;
+        }
+        #qr-reader {
+            border: none !important;
+        }
+    </style>
 </x-app-layout>
