@@ -5,7 +5,8 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div id="main-content" style="visibility: hidden;">
+        <div class="py-12">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-6">
                 <a href="{{ route('cleaning.index') }}" class="text-sm text-indigo-600 hover:text-indigo-900 font-bold flex items-center">
@@ -598,9 +599,10 @@
                 locationDisplay.classList.remove('hidden');
                 
                 // Déverrouillage du formulaire
+                document.getElementById('main-content').style.visibility = 'visible';
                 formContainer.classList.remove('opacity-20', 'blur-sm', 'pointer-events-none');
                 lockMessage.classList.add('hidden');
-                document.body.style.overflow = 'auto'; // Réautorise le scroll
+                document.body.style.overflow = 'auto';
                 
                 stopScanner();
             } else {
