@@ -459,35 +459,30 @@
                             </div>
                         </div>
 
-                        <!-- Message de verrouillage (Priorité Maximale et Design Net) -->
-                        <div id="lock-message" class="fixed inset-0 flex items-center justify-center z-[100] bg-slate-900/60 backdrop-blur-md transition-all duration-500">
-                            <div class="relative bg-white p-10 rounded-3xl shadow-[0_30px_100px_rgba(0,0,0,0.5)] border border-gray-200 text-center max-w-sm mx-4 transform transition-transform duration-300">
-                                <!-- Icône Stylisée -->
-                                <div class="relative w-24 h-24 mx-auto mb-8">
-                                    <div class="absolute inset-0 bg-gradient-to-tr from-indigo-600 to-violet-600 rounded-3xl rotate-6 opacity-20 animate-pulse"></div>
-                                    <div class="absolute inset-0 bg-gradient-to-tr from-indigo-600 to-violet-600 rounded-3xl -rotate-3 opacity-20"></div>
-                                    <div class="relative bg-gradient-to-tr from-indigo-600 to-violet-600 w-full h-full rounded-3xl flex items-center justify-center shadow-lg shadow-indigo-200">
-                                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
-                                    </div>
-                                </div>
-
-                                <h3 class="text-2xl font-black text-slate-900 mb-3 tracking-tight">Accès Sécurisé</h3>
-                                <p class="text-slate-500 text-sm leading-relaxed mb-8 px-2">
-                                    Pour garantir la traçabilité, veuillez flasher le <span class="font-bold text-indigo-600">QR Code</span> présent dans le local.
-                                </p>
-
-                                <button type="button" onclick="startScanner('START')" class="group relative w-full inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-indigo-600 font-pj rounded-2xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 shadow-xl shadow-indigo-100 hover:bg-indigo-700">
-                                    <div class="absolute inset-0 w-full h-full transition-all duration-300 opacity-30 bg-gradient-to-r from-indigo-400 to-violet-400 blur-lg group-hover:opacity-50"></div>
-                                    <svg class="relative w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                    <span class="relative">Flasher le QR Code</span>
-                                </button>
-                                
-                                <p class="mt-6 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">BioNettoyage Security Protocol</p>
-                            </div>
-                        </div>
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Message de verrouillage (Priorité Absolue) -->
+    <div id="lock-message" class="fixed inset-0 flex items-center justify-center z-[9999] bg-slate-900/60 backdrop-blur-md transition-all duration-500">
+        <div class="relative bg-white p-10 rounded-3xl shadow-[0_30px_100px_rgba(0,0,0,0.5)] border border-gray-100 text-center max-w-sm mx-4">
+            <!-- Icône Stylisée -->
+            <div class="relative w-20 h-20 mx-auto mb-8">
+                <div class="absolute inset-0 bg-indigo-600 rounded-2xl rotate-6 opacity-20"></div>
+                <div class="relative bg-indigo-600 w-full h-full rounded-2xl flex items-center justify-center shadow-lg">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-black text-slate-900 mb-2 tracking-tight">Accès Sécurisé</h3>
+            <p class="text-slate-500 text-sm mb-8">Veuillez flasher le QR Code du local pour déverrouiller le formulaire.</p>
+
+            <button type="button" onclick="startScanner('START')" class="w-full inline-flex items-center justify-center px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg hover:bg-indigo-700 transition-all">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                Scanner le QR Code
+            </button>
         </div>
     </div>
     <!-- Modal du Scanner QR Code -->
