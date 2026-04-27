@@ -658,6 +658,9 @@
             border: 1px solid #eef2ff;
             transform: scale(1);
             transition: all 0.3s ease;
+            width: 90%;
+            max-width: 400px;
+            margin: 0 auto;
         }
         .custom-icon-container {
             width: 6rem;
@@ -672,6 +675,7 @@
         .custom-icon-container:hover {
             transform: rotate(6deg);
         }
+
         .custom-lock-title {
             font-size: 1.5rem;
             font-weight: 900;
