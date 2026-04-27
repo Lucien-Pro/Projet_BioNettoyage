@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div id="main-content" style="visibility: hidden;">
+    <div id="main-content">
         <div class="py-12">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-6">
@@ -599,9 +599,8 @@
                 locationDisplay.classList.remove('hidden');
                 
                 // Déverrouillage du formulaire
-                document.getElementById('main-content').style.visibility = 'visible';
                 formContainer.classList.remove('opacity-20', 'blur-sm', 'pointer-events-none');
-                lockMessage.classList.add('hidden');
+                lockMessage.style.display = 'none'; // Utilisation de display none pour être sûr
                 document.body.style.overflow = 'auto';
                 
                 stopScanner();
@@ -639,6 +638,12 @@
     </script>
 
     <style>
+        /* On force le bandeau sticky à se cacher si le lock est présent */
+        #lock-message:not(.hidden) ~ #main-content thead,
+        #lock-message:not([style*="display: none"]) ~ #main-content thead {
+            display: none !important;
+        }
+
         #qr-reader video {
             width: 100% !important;
             height: 100% !important;
