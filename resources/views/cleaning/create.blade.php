@@ -20,7 +20,7 @@
                         @csrf
                         <input type="hidden" name="type" value="{{ $type }}">
 
-                        <div class="space-y-6">
+                        <div id="form-container" class="space-y-6 opacity-20 blur-sm pointer-events-none transition-all duration-700">
                             <!-- Information de base -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="relative">
@@ -458,6 +458,20 @@
                                 <button type="submit" id="real-submit" class="hidden"></button>
                             </div>
                         </div>
+
+                        <!-- Message de verrouillage (visible tant que pas scanné) -->
+                        <div id="lock-message" class="absolute inset-0 flex items-center justify-center z-10">
+                            <div class="bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-indigo-100 text-center max-w-sm mx-auto">
+                                <div class="w-20 h-20 bg-indigo-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-indigo-200 animate-bounce">
+                                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                                </div>
+                                <h3 class="text-xl font-black text-gray-900 mb-2">Formulaire Verrouillé</h3>
+                                <p class="text-gray-500 text-sm">Veuillez scanner le QR Code de la zone pour déverrouiller ce formulaire et commencer votre saisie.</p>
+                                <button type="button" onclick="startScanner('START')" class="mt-6 px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-md shadow-indigo-100">
+                                    Scanner maintenant
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -495,9 +509,7 @@
                 </div>
 
                 <div class="bg-gray-50 px-6 py-4 flex flex-col gap-3">
-                    <button type="button" onclick="stopScanner()" class="w-full inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
-                        Saisie manuelle
-                    </button>
+                    <p class="text-[10px] text-center text-gray-400 uppercase font-bold tracking-widest">Le scan est obligatoire pour la traçabilité</p>
                 </div>
             </div>
         </div>
@@ -518,6 +530,8 @@
 
         const scannerModal = document.getElementById('scanner-modal');
         const modalTitle = document.getElementById('modal-title');
+        const formContainer = document.getElementById('form-container');
+        const lockMessage = document.getElementById('lock-message');
         const locationInput = document.getElementById('location_id');
         const locationPlaceholder = document.getElementById('location-placeholder');
         const locationDisplay = document.getElementById('location-display');
@@ -574,6 +588,11 @@
                 
                 locationPlaceholder.classList.add('hidden');
                 locationDisplay.classList.remove('hidden');
+                
+                // Déverrouillage du formulaire
+                formContainer.classList.remove('opacity-20', 'blur-sm', 'pointer-events-none');
+                lockMessage.classList.add('hidden');
+                
                 stopScanner();
             } else {
                 alert("Ce QR code ne correspond à aucune zone enregistrée.");
