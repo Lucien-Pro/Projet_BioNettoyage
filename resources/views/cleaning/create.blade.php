@@ -599,8 +599,9 @@
                 locationDisplay.classList.remove('hidden');
                 
                 // Déverrouillage du formulaire
+                document.body.classList.remove('form-locked');
                 formContainer.classList.remove('opacity-20', 'blur-sm', 'pointer-events-none');
-                lockMessage.style.display = 'none'; // Utilisation de display none pour être sûr
+                lockMessage.style.display = 'none';
                 document.body.style.overflow = 'auto';
                 
                 stopScanner();
@@ -632,16 +633,18 @@
         });
 
         window.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('form-locked');
             document.body.style.overflow = 'hidden'; // Bloque le scroll au départ
             setTimeout(() => startScanner('START'), 500);
         });
     </script>
 
     <style>
-        /* On force le bandeau sticky à se cacher si le lock est présent */
-        #lock-message:not(.hidden) ~ #main-content thead,
-        #lock-message:not([style*="display: none"]) ~ #main-content thead {
+        /* On cache totalement les en-têtes de tableau tant que la page est verrouillée */
+        body.form-locked thead {
             display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
         }
 
         #qr-reader video {
