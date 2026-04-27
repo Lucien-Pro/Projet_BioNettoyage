@@ -347,11 +347,13 @@
                                     <div class="mb-6 flex gap-4 max-w-md">
                                         <div class="flex-1 bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
                                             <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Mois</span>
-                                            <input type="text" name="mois" value="{{ $currentMonth }}" class="w-full border-none p-0 focus:ring-0 font-bold text-indigo-600 text-sm">
+                                            <p class="font-bold text-indigo-600 text-sm">{{ $currentMonth }}</p>
+                                            <input type="hidden" name="mois" value="{{ $currentMonth }}">
                                         </div>
                                         <div class="flex-1 bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
                                             <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Année</span>
-                                            <input type="text" name="annee" value="{{ $currentYear }}" class="w-full border-none p-0 focus:ring-0 font-bold text-indigo-600 text-sm">
+                                            <p class="font-bold text-indigo-600 text-sm">{{ $currentYear }}</p>
+                                            <input type="hidden" name="annee" value="{{ $currentYear }}">
                                         </div>
                                     </div>
 
