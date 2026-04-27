@@ -71,18 +71,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="mb-6 grid grid-cols-1 md:grid-cols-1 gap-4">
                                         <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm text-center">
                                             <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Semaine n°</span>
                                             <p class="font-bold text-indigo-600 text-xl">{{ $currentWeek }}</p>
-                                        </div>
-                                        <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
-                                            <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Unité (Secteur)</span>
-                                            <input type="text" name="unite" placeholder="Saisir l'unité..." class="w-full border-none p-0 focus:ring-0 font-bold text-gray-700 text-sm">
-                                        </div>
-                                        <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
-                                            <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Chambre n°</span>
-                                            <input type="text" name="chambre" placeholder="Ex: 204..." class="w-full border-none p-0 focus:ring-0 font-bold text-gray-700 text-sm">
                                         </div>
                                     </div>
 
@@ -238,10 +230,6 @@
                                         <div class="flex-1 min-w-[150px] bg-white p-3 rounded-xl border border-gray-200 shadow-sm text-center">
                                             <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Mois et Année</span>
                                             <p class="font-bold text-indigo-600 text-sm capitalize">{{ $currentMonth }} {{ $currentYear }}</p>
-                                        </div>
-                                        <div class="flex-1 min-w-[200px] bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
-                                            <span class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Unité (Secteur)</span>
-                                            <input type="text" name="unite" placeholder="Saisir l'unité..." class="w-full border-none p-0 focus:ring-0 font-bold text-gray-700 text-sm">
                                         </div>
                                     </div>
 
