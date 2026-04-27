@@ -459,9 +459,9 @@
                             </div>
                         </div>
 
-                        <!-- Message de verrouillage (Design Opaque et Clair) -->
-                        <div id="lock-message" class="fixed inset-0 flex items-center justify-center z-40 bg-slate-900/60 backdrop-blur-md transition-all duration-500">
-                            <div class="relative bg-white p-10 rounded-[2.5rem] shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-gray-100 text-center max-w-sm mx-4 transform transition-transform duration-300">
+                        <!-- Message de verrouillage (Priorité Maximale et Design Net) -->
+                        <div id="lock-message" class="fixed inset-0 flex items-center justify-center z-[100] bg-slate-900/60 backdrop-blur-md transition-all duration-500">
+                            <div class="relative bg-white p-10 rounded-3xl shadow-[0_30px_100px_rgba(0,0,0,0.5)] border border-gray-200 text-center max-w-sm mx-4 transform transition-transform duration-300">
                                 <!-- Icône Stylisée -->
                                 <div class="relative w-24 h-24 mx-auto mb-8">
                                     <div class="absolute inset-0 bg-gradient-to-tr from-indigo-600 to-violet-600 rounded-3xl rotate-6 opacity-20 animate-pulse"></div>
