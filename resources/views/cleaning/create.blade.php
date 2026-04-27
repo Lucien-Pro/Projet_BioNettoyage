@@ -476,20 +476,20 @@
                     <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
                 </div>
             </div>
-    <!-- Message de verrouillage (Version Premium) -->
-    <div id="lock-message" class="fixed inset-0 flex items-center justify-center z-[10000] bg-slate-900/40 backdrop-blur-sm transition-all duration-500">
-        <div class="bg-white p-10 rounded-2xl shadow-2xl border border-indigo-50 text-center max-w-sm w-full mx-4 transform transition-transform">
+    <!-- Message de verrouillage (Style Custom pour garantir l'affichage) -->
+    <div id="lock-message" class="fixed inset-0 flex items-center justify-center z-[10000] transition-all duration-500" style="background-color: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px);">
+        <div class="custom-lock-card w-full max-w-sm mx-4 text-center">
             <!-- Icône Premium -->
             <div class="mb-8 relative flex justify-center">
-                <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200 transform rotate-3 hover:rotate-6 transition-transform">
+                <div class="custom-icon-container flex items-center justify-center">
                     <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
                 </div>
             </div>
 
-            <h3 class="text-2xl font-black text-slate-800 mb-3 tracking-tight">Accès Sécurisé</h3>
-            <p class="text-slate-500 text-sm leading-relaxed mb-8">Veuillez flasher le QR Code du local pour déverrouiller l'accès au formulaire.</p>
+            <h3 class="custom-lock-title">Accès Sécurisé</h3>
+            <p class="custom-lock-text">Veuillez flasher le QR Code du local pour déverrouiller l'accès au formulaire.</p>
 
-            <button type="button" onclick="startScanner('START')" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold text-lg shadow-md hover:shadow-xl hover:from-indigo-700 hover:to-purple-700 transition-all flex items-center justify-center gap-2">
+            <button type="button" onclick="startScanner('START')" class="custom-lock-btn flex items-center justify-center gap-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 Scanner le QR Code
             </button>
@@ -649,6 +649,61 @@
     </script>
 
     <style>
+        /* Styles Custom pour la pop-up de verrouillage (garantit l'affichage sans compilation Tailwind) */
+        .custom-lock-card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid #eef2ff;
+            transform: scale(1);
+            transition: all 0.3s ease;
+        }
+        .custom-icon-container {
+            width: 6rem;
+            height: 6rem;
+            background: linear-gradient(135deg, #6366f1, #9333ea);
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+            transform: rotate(3deg);
+            transition: transform 0.3s ease;
+            margin: 0 auto;
+        }
+        .custom-icon-container:hover {
+            transform: rotate(6deg);
+        }
+        .custom-lock-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.025em;
+        }
+        .custom-lock-text {
+            color: #64748b;
+            font-size: 0.875rem;
+            line-height: 1.625;
+            margin-bottom: 2rem;
+        }
+        .custom-lock-btn {
+            width: 100%;
+            padding: 1rem 0;
+            background: linear-gradient(to right, #4f46e5, #7e22ce);
+            color: white;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 1.125rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .custom-lock-btn:hover {
+            background: linear-gradient(to right, #4338ca, #6b21a8);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
         /* On cache totalement les en-têtes de tableau tant que la page est verrouillée */
         body.form-locked thead {
             display: none !important;
