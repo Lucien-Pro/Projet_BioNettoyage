@@ -236,14 +236,14 @@
 
                                     <div class="overflow-x-auto rounded-xl border border-gray-300 bg-white max-h-[600px] overflow-y-auto">
                                         <table class="min-w-full divide-y divide-gray-300">
-                                            <thead class="bg-gray-100 sticky top-0 z-10">
+                                            <thead class="bg-slate-800 text-white sticky top-0 z-10 shadow-md">
                                                 <tr>
-                                                    <th class="px-3 py-3 text-left text-[10px] font-bold text-gray-500 uppercase">Jour</th>
-                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase">Meublants<br><span class="text-[8px] font-normal lowercase">(T, C, Ar, E, Pt)</span></th>
-                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase">Matériel<br><span class="text-[8px] font-normal lowercase">(P, Lv, Mo, C, Cl)</span></th>
-                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase">Chariot Petit Déj.</th>
-                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase">Réfrigérateur</th>
-                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase">Sols</th>
+                                                    <th class="px-4 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-200">Jour</th>
+                                                    <th class="px-4 py-4 text-center text-[11px] font-black uppercase tracking-widest text-slate-200">Meublants<br><span class="text-[9px] font-medium text-slate-400 lowercase tracking-normal">(T, C, Ar, E, Pt)</span></th>
+                                                    <th class="px-4 py-4 text-center text-[11px] font-black uppercase tracking-widest text-slate-200">Matériel<br><span class="text-[9px] font-medium text-slate-400 lowercase tracking-normal">(P, Lv, Mo, C, Cl)</span></th>
+                                                    <th class="px-4 py-4 text-center text-[11px] font-black uppercase tracking-widest text-slate-200">Chariot Petit Déj.</th>
+                                                    <th class="px-4 py-4 text-center text-[11px] font-black uppercase tracking-widest text-slate-200">Réfrigérateur</th>
+                                                    <th class="px-4 py-4 text-center text-[11px] font-black uppercase tracking-widest text-slate-200">Sols</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="divide-y divide-gray-200">
@@ -476,12 +476,21 @@
                     <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
                 </div>
             </div>
+    <!-- Message de verrouillage (Version Premium) -->
+    <div id="lock-message" class="fixed inset-0 flex items-center justify-center z-[10000] bg-slate-900/40 backdrop-blur-sm transition-all duration-500">
+        <div class="bg-white p-10 rounded-2xl shadow-2xl border border-indigo-50 text-center max-w-sm w-full mx-4 transform transition-transform">
+            <!-- Icône Premium -->
+            <div class="mb-8 relative flex justify-center">
+                <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200 transform rotate-3 hover:rotate-6 transition-transform">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                </div>
+            </div>
 
-            <h3 class="text-2xl font-black text-slate-900 mb-2 tracking-tight">Accès Sécurisé</h3>
-            <p class="text-slate-500 text-sm mb-8">Veuillez flasher le QR Code du local pour déverrouiller le formulaire.</p>
+            <h3 class="text-2xl font-black text-slate-800 mb-3 tracking-tight">Accès Sécurisé</h3>
+            <p class="text-slate-500 text-sm leading-relaxed mb-8">Veuillez flasher le QR Code du local pour déverrouiller l'accès au formulaire.</p>
 
-            <button type="button" onclick="startScanner('START')" class="w-full inline-flex items-center justify-center px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg hover:bg-indigo-700 transition-all">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <button type="button" onclick="startScanner('START')" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold text-lg shadow-md hover:shadow-xl hover:from-indigo-700 hover:to-purple-700 transition-all flex items-center justify-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 Scanner le QR Code
             </button>
         </div>
