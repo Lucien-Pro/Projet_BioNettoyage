@@ -534,17 +534,16 @@
     </div>
 
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script id="locations-data" type="application/json">
+        {!! json_encode($locations->pluck('name', 'id')) !!}
+    </script>
     <script>
         let html5QrCode = null;
         let scanStep = 'START';
         let initialLocationId = null;
 
-        // On convertit la liste PHP en objet JS pour le mapping ID -> Nom
-        const locationsMap = {
-            @foreach($locations as $loc)
-                "{{ $loc->id }}": "{{ addslashes($loc->name) }}",
-            @endforeach
-        };
+        // On convertit la liste PHP en objet JS via le DOM pour éviter les erreurs de linting VS Code
+        const locationsMap = JSON.parse(document.getElementById('locations-data').textContent);
 
         const scannerModal = document.getElementById('scanner-modal');
         const modalTitle = document.getElementById('modal-title');
