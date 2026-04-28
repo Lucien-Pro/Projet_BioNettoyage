@@ -8,6 +8,7 @@ services:
       - "8443:443"
     volumes:
       - .:/var/www/html
+      - ./ssl:/etc/ssl/custom
     depends_on:
       - db
     environment:
