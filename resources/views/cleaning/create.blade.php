@@ -66,7 +66,7 @@
                                                 <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE022 | Version: 3 | Page 2 sur 2</p>
                                             </div>
                                         </div>
-                                        <div class="text-[10px] text-gray-400 text-right space-y-1">
+                                        <div class="text-[10px] text-gray-400 text-right space-y-1 w-full md:w-auto">
                                             <p>Nature: Enregistrement | Mise à jour le : 01/02/2015</p>
                                             <p>Saisie hebdomadaire | Diffusion interne</p>
                                         </div>
@@ -164,7 +164,7 @@
                                                 <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE900 | Version: 1 | Page 1 sur 2</p>
                                             </div>
                                         </div>
-                                        <div class="text-[10px] text-gray-400 text-right space-y-1">
+                                        <div class="text-[10px] text-gray-400 text-right space-y-1 w-full md:w-auto">
                                             <p>Nature: Enregistrement | Archivage: 10 ans</p>
                                             <p>Date de rédaction: 23/03/2018 | Infirmière hygiéniste</p>
                                             <p>Noms: Mme BEN GHERBAL</p>
@@ -199,13 +199,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="mt-8 flex justify-end items-end gap-4 text-[10px] text-gray-500">
-                                        <div class="border-t-2 border-gray-200 pt-3 min-w-[140px] text-center">
-                                            <p class="font-bold text-gray-700">Mme DOUEZ</p>
-                                            <p class="text-[9px]">Directrice</p>
-                                            <div class="h-8 italic text-gray-300 flex items-center justify-center">Visa Direction</div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             @elseif($type === 'offices')
                                 <!-- Formulaire HE038 - Entretien des offices -->
@@ -220,7 +214,7 @@
                                                 <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE038 | Version: 2 | Page 1 sur 1</p>
                                             </div>
                                         </div>
-                                        <div class="text-[10px] text-gray-400 text-right space-y-1">
+                                        <div class="text-[10px] text-gray-400 text-right space-y-1 w-full md:w-auto">
                                             <p>Nature: Enregistrement | Archivage: 10 ans</p>
                                             <p>Trame rédigée le: 29/11/2016 | CDS / Cadre de santé</p>
                                             <p>Noms: Mme CILIBERTO / Mme LEROY</p>
@@ -311,17 +305,10 @@
                                         </table>
                                     </div>
 
-                                    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-[10px] text-gray-500">
+                                    <div class="mt-8 grid grid-cols-1 gap-6 text-[10px] text-gray-500">
                                         <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 italic space-y-2">
                                             <p><strong>Meublants :</strong> T=Table, C=chaises, Ar=Armoires de rangement, E=Evier et meuble sous évier, Pt=Plan de travail.</p>
                                             <p><strong>Matériel :</strong> P=Poubelles, Lv=Lave vaisselle, Mo=Four Micro-ondes, C=Cafetière, CI=Chauffe lait.</p>
-                                        </div>
-                                        <div class="flex gap-4 items-end justify-end">
-                                            <div class="border-t-2 border-gray-200 pt-3 min-w-[120px] text-center">
-                                                <p class="font-bold text-gray-700">Mme DOUEZ</p>
-                                                <p class="text-[9px]">Directrice</p>
-                                                <div class="h-8 italic text-gray-300 flex items-center justify-center">Signé le 08/12/16</div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -338,7 +325,7 @@
                                                 <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE024 | Version: 1 | Page 1 sur 1</p>
                                             </div>
                                         </div>
-                                        <div class="text-[10px] text-gray-400 text-right space-y-1">
+                                        <div class="text-[10px] text-gray-400 text-right space-y-1 w-full md:w-auto">
                                             <p>Nature: Enregistrement</p>
                                             <p>Archivage: 10 ans</p>
                                             <p>Rédigé le: 09/01/2022 | CDS EOHH</p>
@@ -416,18 +403,6 @@
                                             </p>
                                             <p><strong>Tenue :</strong> Gants de ménage, blouse, chaussures et protections adaptées.</p>
                                             <p class="mt-1"><strong>Légende :</strong> ASH (Hospitalier), AE (Entretien), ST (Technique), AS (Aide Soignante)</p>
-                                        </div>
-                                        <div class="flex gap-8 w-full md:w-auto">
-                                            <div class="border-t-2 border-gray-200 pt-3 flex-1 md:flex-none md:min-w-[140px] text-center">
-                                                <p class="font-bold text-gray-700">Mme le Dr HUBERT</p>
-                                                <p class="text-[9px]">Présidente CLIN</p>
-                                                <div class="h-8 italic text-gray-300 flex items-center justify-center">Signature</div>
-                                            </div>
-                                            <div class="border-t-2 border-gray-200 pt-3 flex-1 md:flex-none md:min-w-[140px] text-center">
-                                                <p class="font-bold text-gray-700">Mme DOUEZ</p>
-                                                <p class="text-[9px]">Directrice</p>
-                                                <div class="h-8 italic text-gray-300 flex items-center justify-center">Signature</div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
