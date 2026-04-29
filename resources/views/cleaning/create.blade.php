@@ -101,7 +101,7 @@
                                                 <tr>
                                                     <th class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider">Jour de la semaine</th>
                                                     <th class="px-6 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider">Entretien réalisé (MSGF)</th>
-                                                    <th class="px-6 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider">Visa agent</th>
+                                                    <th class="px-6 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider">Fait par</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="divide-y divide-gray-200">
@@ -144,7 +144,7 @@
                                                         </td>
                                                         <td class="px-6 py-4 text-center text-[10px] uppercase font-bold {{ $day == $currentDayName ? 'text-indigo-400' : 'text-gray-200' }}">
                                                             @if($day == $currentDayName)
-                                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800">Visa OK</span>
+                                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800">{{ Auth::user()->name }}</span>
                                                             @else
                                                                 -
                                                             @endif
@@ -320,7 +320,7 @@
                                                                 <input type="checkbox" name="{{ $col }}_{{ $i }}" 
                                                                     {{ $i == $currentDay ? 'checked' : '' }} 
                                                                     class="h-5 w-5 text-indigo-600 border-gray-300 rounded-md focus:ring-indigo-500 transition-transform hover:scale-110">
-                                                                <span class="block text-[8px] mt-1 text-gray-400 uppercase font-bold {{ $i == $currentDay ? 'text-indigo-400' : 'hidden' }}">Visa OK</span>
+                                                                <span class="block text-[8px] mt-1 text-gray-400 uppercase font-bold {{ $i == $currentDay ? 'text-indigo-400' : 'hidden' }}">Fait par {{ Auth::user()->name }}</span>
                                                             </td>
                                                         @endforeach
                                                     </tr>
