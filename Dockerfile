@@ -9,13 +9,13 @@ RUN apt-get update && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install pdo pdo_mysql ldap zip
 
-# Activation de SSL
-RUN a2enmod ssl && a2ensite default-ssl
+# Activation de SSL (Désactivé temporairement)
+# RUN a2enmod ssl && a2ensite default-ssl
 
-# Mise à jour de la configuration SSL d'Apache pour utiliser les certificats montés dans /etc/ssl/custom
-RUN sed -i 's|/etc/ssl/certs/ssl-cert-snakeoil.pem|/etc/ssl/custom/bionet.crt|g' /etc/apache2/sites-available/default-ssl.conf
-RUN sed -i 's|/etc/ssl/private/ssl-cert-snakeoil.key|/etc/ssl/custom/bionet.key|g' /etc/apache2/sites-available/default-ssl.conf
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/default-ssl.conf
+# Mise à jour de la configuration SSL d'Apache (Désactivé temporairement)
+# RUN sed -i 's|/etc/ssl/certs/ssl-cert-snakeoil.pem|/etc/ssl/custom/bionet.crt|g' /etc/apache2/sites-available/default-ssl.conf
+# RUN sed -i 's|/etc/ssl/private/ssl-cert-snakeoil.key|/etc/ssl/custom/bionet.key|g' /etc/apache2/sites-available/default-ssl.conf
+# RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/default-ssl.conf
 
 # Configuration spécifique LDAP pour autoriser le SSL sans vérification stricte du certificat
 RUN mkdir -p /etc/ldap && echo "TLS_REQCERT never" >> /etc/ldap/ldap.conf
