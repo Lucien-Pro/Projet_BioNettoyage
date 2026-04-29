@@ -351,7 +351,7 @@
                                                 <tr>
                                                     <th class="px-3 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider">Surfaces / Tâches</th>
                                                     <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider">Qui</th>
-                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Fréq.</th>
+                                                    <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Fréquence</th>
                                                     @for($i = 1; $i <= 31; $i++)
                                                         <th class="px-1 py-3 text-center text-[9px] font-bold {{ $i == $currentDay ? 'bg-indigo-600 text-white' : 'hidden' }}">{{ $i }}</th>
                                                     @endfor
@@ -360,11 +360,11 @@
                                             <tbody class="divide-y divide-gray-200">
                                                 @php
                                                     $tasks = [
-                                                        'raclette' => ['label' => 'Nettoyer la raclette', 'freq' => 'Util.'],
-                                                        'vidange' => ['label' => 'Vidanger la machine (siphon)', 'freq' => '1/j'],
-                                                        'reservoir' => ['label' => 'Rincer le réservoir', 'freq' => '1/j'],
-                                                        'exterieur' => ['label' => 'Nettoyer l\'extérieur', 'freq' => '1/j'],
-                                                        'gants' => ['label' => 'Nettoyer les gants', 'freq' => 'Util.'],
+                                                        'raclette' => ['label' => 'Nettoyer la raclette', 'freq' => 'Après chaque utilisation'],
+                                                        'vidange' => ['label' => 'Vidanger la machine (siphon)', 'freq' => '1/jour'],
+                                                        'reservoir' => ['label' => 'Rincer le réservoir', 'freq' => '1/jour'],
+                                                        'exterieur' => ['label' => 'Nettoyer l\'extérieur', 'freq' => '1/jour'],
+                                                        'gants' => ['label' => 'Nettoyer les gants', 'freq' => 'Après nettoyage du matériel'],
                                                     ];
                                                 @endphp
 
@@ -381,7 +381,7 @@
                                                                 </select>
                                                             </div>
                                                         </td>
-                                                        <td class="px-2 py-2 text-[9px] text-gray-400 text-center font-bold uppercase">{{ $task['freq'] }}</td>
+                                                        <td class="px-2 py-2 text-[9px] text-gray-500 text-center font-bold">{{ $task['freq'] }}</td>
                                                         @for($i = 1; $i <= 31; $i++)
                                                             <td class="px-0 py-0 text-center {{ $i == $currentDay ? 'bg-indigo-50/50' : 'hidden' }}">
                                                                 <input type="checkbox" name="{{ $key }}_{{ $i }}" 
