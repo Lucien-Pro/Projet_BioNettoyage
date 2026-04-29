@@ -102,7 +102,7 @@
                                                     $currentDayName = ucfirst(now()->locale('fr')->isoFormat('dddd'));
                                                 @endphp
                                                 @foreach($days as $day)
-                                                    <tr class="{{ $day == $currentDayName ? 'bg-indigo-50 border-x-2 border-indigo-200' : 'hover:bg-gray-50/50' }} transition-colors">
+                                                    <tr class="{{ $day == $currentDayName ? 'bg-indigo-50 border-x-2 border-indigo-200' : 'hidden' }} transition-colors">
                                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-bold {{ $day == $currentDayName ? 'text-indigo-700' : 'text-gray-900' }}">
                                                             {{ $day }}
                                                         </td>
@@ -248,7 +248,7 @@
                                             </thead>
                                             <tbody class="divide-y divide-gray-200">
                                                 @for($i = 1; $i <= 31; $i++)
-                                                    <tr class="{{ $i == $currentDay ? 'bg-indigo-50 border-y-2 border-indigo-200' : 'hover:bg-gray-50/50' }} transition-colors">
+                                                    <tr class="{{ $i == $currentDay ? 'bg-indigo-50 border-y-2 border-indigo-200' : 'hidden' }} transition-colors">
                                                         <td class="px-3 py-3 text-center text-sm font-bold {{ $i == $currentDay ? 'text-indigo-700' : 'text-gray-400' }}">
                                                             {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}
                                                         </td>
@@ -366,7 +366,7 @@
                                                     <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider">Qui</th>
                                                     <th class="px-3 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Fréq.</th>
                                                     @for($i = 1; $i <= 31; $i++)
-                                                        <th class="px-1 py-3 text-center text-[9px] font-bold {{ $i == $currentDay ? 'bg-indigo-600 text-white' : 'text-gray-400 border-l border-gray-100' }}">{{ $i }}</th>
+                                                        <th class="px-1 py-3 text-center text-[9px] font-bold {{ $i == $currentDay ? 'bg-indigo-600 text-white' : 'hidden' }}">{{ $i }}</th>
                                                     @endfor
                                                 </tr>
                                             </thead>
@@ -396,7 +396,7 @@
                                                         </td>
                                                         <td class="px-2 py-2 text-[9px] text-gray-400 text-center font-bold uppercase">{{ $task['freq'] }}</td>
                                                         @for($i = 1; $i <= 31; $i++)
-                                                            <td class="px-0 py-0 text-center {{ $i == $currentDay ? 'bg-indigo-50/50' : 'border-l border-gray-50' }}">
+                                                            <td class="px-0 py-0 text-center {{ $i == $currentDay ? 'bg-indigo-50/50' : 'hidden' }}">
                                                                 <input type="checkbox" name="{{ $key }}_{{ $i }}" 
                                                                     {{ $i == $currentDay ? 'checked' : '' }} 
                                                                     class="h-3.5 w-3.5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 transition-transform hover:scale-110">
