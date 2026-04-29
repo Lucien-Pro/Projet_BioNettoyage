@@ -56,20 +56,22 @@
                             @if($type === 'rooms')
                                 <!-- Formulaire HE022 - Entretien des chambres -->
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
-                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
-                                        <div class="flex items-center gap-4 mb-4 md:mb-0">
-                                            <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                                <x-application-logo class="w-10 h-10" />
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-start">
+                                        <div class="flex flex-col gap-4 mb-4 md:mb-0">
+                                            <div class="flex items-center gap-4">
+                                                <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center shrink-0">
+                                                    <x-application-logo class="w-10 h-10" />
+                                                </div>
+                                                <div>
+                                                    <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien des chambres</h4>
+                                                    <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE022 | Version: 3 | Page 2 sur 2</p>
+                                                </div>
                                             </div>
                                             <div>
-                                                <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien des chambres</h4>
-                                                <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE022 | Version: 3 | Page 2 sur 2</p>
-                                                <div class="mt-2.5 flex justify-start">
-                                                    <a href="http://srvwdoc01:8080/ennov/prod" target="_blank" class="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 text-indigo-800 text-[10px] font-semibold rounded-full transition-all duration-300 shadow-sm hover:shadow border border-indigo-100">
-                                                        <svg class="w-3.5 h-3.5 text-indigo-500 group-hover:text-indigo-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                                                        Voir Protocole
-                                                    </a>
-                                                </div>
+                                                <a href="http://srvwdoc01:8080/ennov/prod" target="_blank" class="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 text-indigo-800 text-[10px] font-semibold rounded-full transition-all duration-300 shadow-sm hover:shadow border border-indigo-100">
+                                                    <svg class="w-3.5 h-3.5 text-indigo-500 group-hover:text-indigo-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                                                    Voir Protocole
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="text-[10px] text-gray-400 text-right space-y-1 w-full md:w-auto">
@@ -160,20 +162,22 @@
                             @elseif($type === 'mortuary')
                                 <!-- Formulaire HE900 - Chambre mortuaire -->
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
-                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
-                                        <div class="flex items-center gap-4 mb-4 md:mb-0">
-                                            <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                                <x-application-logo class="w-10 h-10" />
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-start">
+                                        <div class="flex flex-col gap-4 mb-4 md:mb-0">
+                                            <div class="flex items-center gap-4">
+                                                <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center shrink-0">
+                                                    <x-application-logo class="w-10 h-10" />
+                                                </div>
+                                                <div>
+                                                    <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien de la chambre mortuaire</h4>
+                                                    <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE900 | Version: 1 | Page 1 sur 2</p>
+                                                </div>
                                             </div>
                                             <div>
-                                                <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Traçabilité de l'entretien de la chambre mortuaire</h4>
-                                                <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE900 | Version: 1 | Page 1 sur 2</p>
-                                                <div class="mt-2.5 flex justify-start">
-                                                    <a href="http://srvwdoc01:8080/ennov/prod" target="_blank" class="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 text-indigo-800 text-[10px] font-semibold rounded-full transition-all duration-300 shadow-sm hover:shadow border border-indigo-100">
-                                                        <svg class="w-3.5 h-3.5 text-indigo-500 group-hover:text-indigo-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                                                        Voir Protocole
-                                                    </a>
-                                                </div>
+                                                <a href="http://srvwdoc01:8080/ennov/prod" target="_blank" class="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 text-indigo-800 text-[10px] font-semibold rounded-full transition-all duration-300 shadow-sm hover:shadow border border-indigo-100">
+                                                    <svg class="w-3.5 h-3.5 text-indigo-500 group-hover:text-indigo-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                                                    Voir Protocole
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="text-[10px] text-gray-400 text-right space-y-1 w-full md:w-auto">
@@ -216,20 +220,22 @@
                             @elseif($type === 'offices')
                                 <!-- Formulaire HE038 - Entretien des offices -->
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
-                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
-                                        <div class="flex items-center gap-4 mb-4 md:mb-0">
-                                            <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                                <x-application-logo class="w-10 h-10" />
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-start">
+                                        <div class="flex flex-col gap-4 mb-4 md:mb-0">
+                                            <div class="flex items-center gap-4">
+                                                <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center shrink-0">
+                                                    <x-application-logo class="w-10 h-10" />
+                                                </div>
+                                                <div>
+                                                    <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Enregistrement de l'entretien des offices</h4>
+                                                    <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE038 | Version: 2 | Page 1 sur 1</p>
+                                                </div>
                                             </div>
                                             <div>
-                                                <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight text-indigo-600">Enregistrement de l'entretien des offices</h4>
-                                                <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE038 | Version: 2 | Page 1 sur 1</p>
-                                                <div class="mt-2.5 flex justify-start">
-                                                    <a href="http://srvwdoc01:8080/ennov/prod" target="_blank" class="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 text-indigo-800 text-[10px] font-semibold rounded-full transition-all duration-300 shadow-sm hover:shadow border border-indigo-100">
-                                                        <svg class="w-3.5 h-3.5 text-indigo-500 group-hover:text-indigo-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                                                        Voir Protocole
-                                                    </a>
-                                                </div>
+                                                <a href="http://srvwdoc01:8080/ennov/prod" target="_blank" class="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 text-indigo-800 text-[10px] font-semibold rounded-full transition-all duration-300 shadow-sm hover:shadow border border-indigo-100">
+                                                    <svg class="w-3.5 h-3.5 text-indigo-500 group-hover:text-indigo-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                                                    Voir Protocole
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="text-[10px] text-gray-400 text-right space-y-1 w-full md:w-auto">
@@ -333,20 +339,22 @@
                             @elseif($type === 'autolaveuse')
                                 <!-- Formulaire HE024 - Autolaveuse -->
                                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
-                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-center">
-                                        <div class="flex items-center gap-4 mb-4 md:mb-0">
-                                            <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                                <x-application-logo class="w-10 h-10" />
+                                    <div class="flex flex-col md:flex-row justify-between border-b border-gray-300 pb-4 mb-6 items-start">
+                                        <div class="flex flex-col gap-4 mb-4 md:mb-0">
+                                            <div class="flex items-center gap-4">
+                                                <div class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center shrink-0">
+                                                    <x-application-logo class="w-10 h-10" />
+                                                </div>
+                                                <div>
+                                                    <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight">Suivi plan de nettoyage - désinfection quotidien<br><span class="text-indigo-600">AUTO LAVEUSE</span></h4>
+                                                    <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE024 | Version: 1 | Page 1 sur 1</p>
+                                                </div>
                                             </div>
                                             <div>
-                                                <h4 class="text-lg font-bold text-gray-800 uppercase leading-tight">Suivi plan de nettoyage - désinfection quotidien<br><span class="text-indigo-600">AUTO LAVEUSE</span></h4>
-                                                <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">N°: HE024 | Version: 1 | Page 1 sur 1</p>
-                                                <div class="mt-2.5 flex justify-start">
-                                                    <a href="http://srvwdoc01:8080/ennov/prod" target="_blank" class="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 text-indigo-800 text-[10px] font-semibold rounded-full transition-all duration-300 shadow-sm hover:shadow border border-indigo-100">
-                                                        <svg class="w-3.5 h-3.5 text-indigo-500 group-hover:text-indigo-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                                                        Voir Protocole
-                                                    </a>
-                                                </div>
+                                                <a href="http://srvwdoc01:8080/ennov/prod" target="_blank" class="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 text-indigo-800 text-[10px] font-semibold rounded-full transition-all duration-300 shadow-sm hover:shadow border border-indigo-100">
+                                                    <svg class="w-3.5 h-3.5 text-indigo-500 group-hover:text-indigo-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                                                    Voir Protocole
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="text-[10px] text-gray-400 text-right space-y-1 w-full md:w-auto">
